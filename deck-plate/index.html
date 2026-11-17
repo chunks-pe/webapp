@@ -646,17 +646,15 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
         // LCB 구성 : src = 하중 케이스 uid, grp = ENV 묶음(1 DB 직교 / 2 DB 평행 / 3 크레인 / 4 추가하중(PSM) / 5 기타), on:false = MIDAS 입력에서 제외
         lcb: [
           { src: 'u-db11', grp: 1, items: [{ k: 'D', f: 1 }, { k: 'u-db11', f: 1 }] },
-          { src: 'u-db12', grp: 1, items: [{ k: 'D', f: 1 }, { k: 'u-db12', f: 1 }], on: false },
-          { src: 'u-db13', grp: 1, items: [{ k: 'D', f: 1 }, { k: 'u-db13', f: 1 }], on: false },
-          { src: 'u-db14', grp: 1, items: [{ k: 'D', f: 1 }, { k: 'u-db14', f: 1 }], on: false },
-          { src: 'u-psm11', grp: 4, items: [{ k: 'D', f: 1 }, { k: 'u-psm11', f: 1 }] }
+          { src: 'u-db21', grp: 2, items: [{ k: 'D', f: 1 }, { k: 'u-db21', f: 1 }] },
+          { src: 'u-tc11', grp: 3, items: [{ k: 'D', f: 1 }, { k: 'u-tc11', f: 1 }] },
+          { src: 'u-cr11', grp: 3, items: [{ k: 'D', f: 1 }, { k: 'u-cr11', f: 1 }] }
         ],
         cases: [
-          { kind: 'DB', name: 'Live(DB-24)-11', comb: '11', type: 1, cx: 0,      cy: 0,    show: true, uid: 'u-db11' },
-          { kind: 'DB', name: 'Live(DB-24)-12', comb: '12', type: 1, cx: 0,      cy: 0,    show: true, uid: 'u-db12' },
-          { kind: 'DB', name: 'Live(DB-24)-13', comb: '13', type: 1, cx: 0,      cy: 0,    show: true, uid: 'u-db13' },
-          { kind: 'DB', name: 'Live(DB-24)-14', comb: '14', type: 1, cx: 0,      cy: 0,    show: true, uid: 'u-db14' },
-          { kind: 'PSM', idx: 0, name: 'Live(Add)-11', comb: 'P11', cx: 0,    cy: 0,    show: true, uid: 'u-psm11' }
+          { kind: 'DB', name: 'Live(DB-24)-11',   comb: '11',  type: 1, cx: 0, cy: 0, show: true, uid: 'u-db11' },
+          { kind: 'DB', name: 'Live(DB-24)-21',   comb: '21',  type: 2, cx: 0, cy: 0, show: true, uid: 'u-db21' },
+          { kind: 'TC', name: 'Live(Crane)-11',   comb: 'T11', type: 1, cx: 0, cy: 0, show: true, uid: 'u-tc11' },
+          { kind: 'CR', name: 'Live(Crawler)-11', comb: 'C11', type: 1, cx: 0, cy: 0, show: true, uid: 'u-cr11' }
         ],
         padT: 5,
         groups: true, crane: true, ver: 'old'   // MCT 형식 : old = MIDAS Civil 8.7.0 / new = 9.5.5
@@ -1214,6 +1212,12 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
     });
     return out.join(', ');
   }
+  /* 화면 입력란의 기본 문구 : 같은 ENV로 묶인 LCB 이름 (LCB1, LCB2 …) */
+  function envLcbText(inp, g) {
+    const S = syncLcb(inp), out = [];
+    S.rows.forEach((r, i) => { if (r.grp === g && r.on !== false) out.push('LCB' + (i + 1)); });
+    return out.join(', ');
+  }
   function envDescUser(inp, g) { const d = inp.mct.envDesc && inp.mct.envDesc[g]; return d && d.u && d.t ? String(d.t) : ''; }
   function envDescText(inp, g) { return envDescUser(inp, g) || envAutoText(inp, g); }
   function comboDefs(inp) {
@@ -1418,7 +1422,7 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
     return { messages: msgs, alerts, thickBad, nBad: bad, W3, W2, wRatio: W3 / W2, nodes: M.nodes.length, elems: M.elems.length, q: { nrm, comps, hang, maxAR, nAR, hMin, hMax, arLim: AR_LIM } };
   }
 
-  const api = { buildModel, generateMct, validate, thickIssues, compress, expandList, comboDefs, lcbDefs, envAutoText, envDescText, lcbTargets, syncLcb, lcbList, patches, dbCases, tcCases, crCases, psmCaseList, kfix };
+  const api = { buildModel, generateMct, validate, thickIssues, compress, expandList, comboDefs, lcbDefs, envAutoText, envDescText, envLcbText, lcbTargets, syncLcb, lcbList, patches, dbCases, tcCases, crCases, psmCaseList, kfix };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.Mct = api;
 })(typeof window !== 'undefined' ? window : globalThis);
 
@@ -4046,7 +4050,7 @@ const OCRR = (function () {
       h('div', { class: 'row', id: 'caseAdd' }),
       h('div', { id: 'caseWarn' })));
     root.appendChild(card('하중 조합', '재하 위치마다 LCB(자중 + 해당 활하중)가 자동 생성되고, 구성·계수는 표에서 수정할 수 있습니다. LCB는 하중 종류별 ENV1~ENV5로 묶이고, 모두 최종 ENV로 Envelope 됩니다.', h('div', { id: 'comboInfo' })));
-    root.appendChild(card('MCT 파일', 'ASCII(영문) MCT로 생성되어 한글 인코딩 문제가 없습니다. MIDAS Civil > File > Import > MIDAS Civil MCT file로 불러오세요.',
+    root.appendChild(card('MCT 파일', 'MIDAS Civil > File > Import > MIDAS Civil MCT file로 불러오세요.',
       h('div', { class: 'grid', style: 'grid-template-columns:repeat(3,minmax(0,1fr))' }, verSel()),
       h('div', { class: 'row' }, h('button', { class: 'btn primary', onclick: downloadMct, text: 'MCT 파일 생성 · 다운로드' }), h('button', { class: 'btn', onclick: toggleMctPreview, text: 'MCT 미리보기' })),
       h('pre', { id: 'mctPreview', class: 'pre hide' }),
@@ -4146,7 +4150,7 @@ const OCRR = (function () {
       const add = h('button', { class: 'btn sm', text: '+ 하중', onclick: () => { const t = T.find(q => !r.items.some(x => x.k === q.key)) || T[0]; if (!t) return; r.items.push({ k: t.key, f: 1 }); delete r.gu; redo(); } });
       const gs = h('select', { class: 's', title: '선택한 활하중 유형에 따라 자동 지정되며, 직접 고르면 그 묶음으로 고정됩니다 (활하중을 바꾸면 다시 자동)' }, ...[1, 2, 3, 4, 5].map(g => h('option', { value: g, text: GN[g] }))); gs.value = r.grp;
       gs.addEventListener('change', () => { r.gu = parseInt(gs.value, 10); redo(); });
-      const dsc = h('input', { type: 'text', class: 't s', placeholder: '부연설명 (자동 : 주 하중명)', title: 'ENV 묶음 설명 : 같은 ENV로 묶인 LCB의 주 하중명이 자동으로 나열됩니다. 직접 고치면 그 문구를 사용하고, 지우면 다시 자동입니다.' }); dsc.value = r.on === false ? '' : MC.envDescText(S.inp, r.grp); if (r.on === false) { dsc.disabled = true; dsc.placeholder = '(적용 안 함)'; }
+      const dsc = h('input', { type: 'text', class: 't s', placeholder: '부연설명 (자동 : 묶인 LCB 이름)', title: 'ENV 묶음 설명 : 같은 ENV로 묶인 LCB 이름(LCB1, LCB2 …)이 자동으로 나열됩니다. 직접 고치면 그 문구를 사용하고, 지우면 다시 자동입니다.' }); dsc.value = r.on === false ? '' : (() => { const ed = S.inp.mct.envDesc && S.inp.mct.envDesc[r.grp]; return ed && ed.u && ed.t ? String(ed.t) : MC.envLcbText(S.inp, r.grp); })(); if (r.on === false) { dsc.disabled = true; dsc.placeholder = '(적용 안 함)'; }
       dsc.addEventListener('input', () => { const t = dsc.value.trim(), ed = S.inp.mct.envDesc = S.inp.mct.envDesc || {}; if (t) ed[r.grp] = { t: dsc.value, u: true }; else delete ed[r.grp]; changed(true); });
       dsc.addEventListener('change', () => { refreshComboInfo(true); });
       const envCell = h('div', { class: 'envsel', style: 'display:flex;gap:6px;align-items:center' }, gs, dsc); dsc.style.flex = '1'; dsc.style.minWidth = '0';
