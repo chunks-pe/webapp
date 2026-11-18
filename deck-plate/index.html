@@ -632,7 +632,7 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
         crawler: { use: true, name: '크롤러 크레인',   W: 289, f: 0.85, a: 2.88, b: 0.6 },   // 궤도면적 = a × b (m),
         truckCr: { use: true, name: '트럭 크레인',      W: 450, f: 0.70, padB: 1, padL: 2 },
         mix:     { use: true, name: '레미콘',          W: 300, f2: 0.25 },
-        db24:    { use: true, name: 'DB-24',           W: 240, f: 0.40, ca: 0.2309, cb: 0.5773 },
+        db24:    { use: true, name: 'KL-510',           W: 240, f: 0.40, ca: 0.2309, cb: 0.5773 },
         work:    { use: false, name: '작업하중(크롤러 크레인 152.6ton)', P: 1526, f2D: 0.85, f1: 0.75, area1: 8.155, area2: 1.2 },
         psm:     { use: false, name: 'PSM 거더 캐리어', type: '등분포하중', P2D: 360, k2D: 1.1, pa: 0.72, pb: 1.1 },
         psmX:    []        // 추가하중 세트(+ 버튼) : psm과 같은 항목 { name, type, P2D, k2D, pa, pb }
@@ -654,8 +654,8 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
           { src: 'u-cr11', grp: 3, items: [{ k: 'D', f: 1 }, { k: 'u-cr11', f: 1 }] }
         ],
         cases: [
-          { kind: 'DB', name: 'Live(DB-24)-11',   comb: '11',  type: 1, cx: 0, cy: 0, show: true, uid: 'u-db11' },
-          { kind: 'DB', name: 'Live(DB-24)-21',   comb: '21',  type: 2, cx: 0, cy: 0, show: true, uid: 'u-db21' },
+          { kind: 'DB', name: 'Live(KL-510)-11',   comb: '11',  type: 1, cx: 0, cy: 0, show: true, uid: 'u-db11' },
+          { kind: 'DB', name: 'Live(KL-510)-21',   comb: '21',  type: 2, cx: 0, cy: 0, show: true, uid: 'u-db21' },
           { kind: 'TC', name: 'Live(Crane)-11',   comb: 'T11', type: 1, cx: 0, cy: 0, show: true, uid: 'u-tc11' },
           { kind: 'CR', name: 'Live(Crawler)-11', comb: 'C11', type: 1, cx: 0, cy: 0, show: true, uid: 'u-cr11' }
         ],
@@ -665,7 +665,7 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
       res3d: {
         // 하중 조합(검토 케이스) : MIDAS에서 읽은 값을 입력/가져오기
         combos: [
-          { id: 'ENV1', title: '하중 조합-1 : LC1(자중) + LC2(DB-24, 차량 직교)', mctName: 'ENV1', members: ['LCB1'], deck: null, bh: null, defl: null, imgDeck: null, imgBh: null, imgDefl: null },
+          { id: 'ENV1', title: '하중 조합-1 : LC1(자중) + LC2(KL-510, 차량 직교)', mctName: 'ENV1', members: ['LCB1'], deck: null, bh: null, defl: null, imgDeck: null, imgBh: null, imgDefl: null },
           { id: 'ENV4', title: '하중 조합-4 : LC1(자중) + LC4(PSM 거더 캐리어)', mctName: 'ENV4', members: ['LCB5'], deck: null, bh: null, defl: null, imgDeck: null, imgBh: null, imgDefl: null }
         ],
         bhGroups: { WEB: true, MFLG: true, LFLG: true, DIAPH: true, PAD: false },
@@ -758,7 +758,7 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
 
     const dbP = l.db24.f * l.db24.W;
     const Pf = dbP * i1;
-    const db24 = { label: '표준트럭(DB-24)', use: lf.db24, P0: dbP, P: Pf, M: Pf * Lm / 4, V: Pf, kind: 'point' };
+    const db24 = { label: '표준트럭(KL-510)', use: lf.db24, P0: dbP, P: Pf, M: Pf * Lm / 4, V: Pf, kind: 'point' };
 
     const wk = l.work;
     const wkW = wk.P * i1 * wk.f2D / (wk.area1 * wk.area2);
@@ -787,7 +787,7 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
     });
     if (crawler.use) addC('크롤러 크레인', crawler.M, crawler.V);
     if (truckCr.use) addC('트럭 크레인', truckCr.M, truckCr.V);
-    if (db24.use) addC('DB-24', db24.M, db24.V);
+    if (db24.use) addC('KL-510', db24.M, db24.V);
     if (work.included) addC('작업하중', work.M, work.V);
     psms.forEach(p => addC(p.label, p.M, p.V));
     out.Ml = Mc.length ? Math.max.apply(null, Mc) : 0; out.Vl = Vc.length ? Math.max.apply(null, Vc) : 0;
@@ -1313,7 +1313,7 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
       w('; DATA=bUNIFORM, b3PT, X1, Y1, L1, X2, Y2, L2, X3, Y3, L3, X4, Y4, L4 ; TYPE=AREA');
       const ltMap = new Map(), cnt = {};
       pt.forEach(p => {
-        const nm = p.kind === 'DB' ? 'DB-24-' + p.type : p.kind === 'TC' ? 'TC' : p.kind === 'CR' ? 'CR' : 'PSM-' + p.name.replace(/[^A-Za-z0-9]/g, '');
+        const nm = p.kind === 'DB' ? 'KL-510-' + p.type : p.kind === 'TC' ? 'TC' : p.kind === 'CR' ? 'CR' : 'PSM-' + p.name.replace(/[^A-Za-z0-9]/g, '');
         const key = nm + '|' + p.dx + '|' + p.dy + '|' + (p.idx || 0) + '|' + (p.k || 1);
         if (ltMap.has(key)) { p._lt = ltMap.get(key); return; }
         const n = (cnt[nm] = (cnt[nm] || 0) + 1), lt = n === 1 ? nm : nm + '-' + n; ltMap.set(key, lt); p._lt = lt;
@@ -2147,7 +2147,7 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
     if (lf.truckCr) l5.push('- ' + lo.truckCr.name + ' : w = ' + f(lo.truckCr.f, 2) + ' × ' + f(lo.truckCr.W, 0) + ' / (' + fv(lo.truckCr.padB) + ' × ' + fv(lo.truckCr.padL) + ') × ' + fv(lv.truckCr.bEff) + ' × ' + ip + ' = ' + f(lv.truckCr.w, 3) + ' kN/m   →   M = w·L²/8 = ' + U(f(lv.truckCr.M, 3) + ' kN·m') + ' ,  V = w·L/2 = ' + U(f(lv.truckCr.V, 3) + ' kN'));
     if (l5.length) { p((++no) + ') 작업하중', { bold: true }); eq.apply(null, l5); }
     if (lf.db24) {
-      p((++no) + ') 표준트럭하중 (DB-24, 차량하중)', { bold: true });
+      p((++no) + ') 표준트럭하중 (KL-510, 차량하중)', { bold: true });
       eq('Pf = ' + f(lv.db24.P0, 1) + ' × (1+' + f(ld.im.adopt, 2) + ') = ' + f(lv.db24.P, 3) + ' kN',
         'M = Pf·L/4 = ' + f(lv.db24.P, 3) + ' × ' + f(ld.Lm, 2) + ' / 4 = ' + U(f(lv.db24.M, 3) + ' kN·m') + ' ,  V = ' + U(f(lv.db24.V, 3) + ' kN'),
         '(바퀴하중이 복공판 지점에 위치할 때 최대전단력 발생)');
@@ -2237,7 +2237,7 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
     if (i3.wheelOn) {
       const pl = []; if (lf3.dump) pl.push(f(i3.dumpP, 1)); if (lf3.mix) pl.push(f(i3.mixP, 1)); if (lf3.db24) pl.push(f(i3.dbP, 1));
       l3.push('- 충격 포함 최대 윤하중 : Pmax = ' + (pl.length > 1 ? 'MAX(' + pl.join(', ') + ')' : pl[0]) + ' = ' + f(i3.Pmax, 1) + ' kN  →  P = ' + f(i3.Pmax, 1) + ' × (1+' + f(i3.im.adopt, 2) + ') = ' + f(i3.Pimp, 2) + ' kN',
-        '- DB-24 접지압 : w = ' + f(i3.Pimp, 2) + ' / (' + f(lo.db24.ca, 4) + ' × ' + f(lo.db24.cb, 4) + ') = ' + f(i3.wheelP, 2) + ' kN/m²');
+        '- KL-510 접지압 : w = ' + f(i3.Pimp, 2) + ' / (' + f(lo.db24.ca, 4) + ' × ' + f(lo.db24.cb, 4) + ') = ' + f(i3.wheelP, 2) + ' kN/m²');
     }
     if (lf3.crawler) l3.push('- 크롤러 크레인 : q = ' + f(i3.crP, 2) + ' / ' + f(lo.crawler.a * lo.crawler.b, 2) + ' = ' + f(i3.crWm2, 3) + ' kN/m²');
     if (lf3.truckCr) l3.push('- 트럭 크레인 : q = ' + f(i3.tcP, 1) + ' / (' + fv(lo.truckCr.padB) + ' × ' + fv(lo.truckCr.padL) + ') = ' + f(i3.tcWm2, 3) + ' kN/m²  →  p = q × (1+' + f(i3.im.adopt, 2) + ') = ' + f(i3.tcPt, 3) + ' kN/m²  (지지패널 L × B 면적에 재하, 재하 위치별 케이스 : 복공판 밖의 부분은 재하하지 않음)');
@@ -3579,7 +3579,7 @@ const OCRR = (function () {
   const ensureCases = inp => { try { const m = inp.mct, f = E.useFlags(inp); if (!Array.isArray(m.cases)) m.cases = []; const cs = m.cases;
       const nx = ((inp.loads && inp.loads.psmX) || []).length, taken = new Set(cs.map(c => String(c.comb))); let n = 0;
       const add = (kind, idx) => { let k; do { k = (kind === 'DB' ? 'D' : kind === 'TC' ? 'T' : kind === 'CR' ? 'C' : 'P') + 'x' + (++n); } while (taken.has(k)); taken.add(k);
-        const c = { kind, name: kind === 'DB' ? 'Live(DB-24)' : kind === 'TC' ? 'Live(Crane)' : kind === 'CR' ? 'Live(Crawler)' : 'Live(Add)', comb: k, type: 1, cx: 0, cy: 0, show: true }; if (kind === 'PSM') c.idx = idx; cs.push(c); };
+        const c = { kind, name: kind === 'DB' ? 'Live(KL-510)' : kind === 'TC' ? 'Live(Crane)' : kind === 'CR' ? 'Live(Crawler)' : 'Live(Add)', comb: k, type: 1, cx: 0, cy: 0, show: true }; if (kind === 'PSM') c.idx = idx; cs.push(c); };
       if (E.wheelOn(inp) && !cs.some(c => c.kind !== 'PSM' && c.kind !== 'TC' && c.kind !== 'CR')) add('DB');
       if (f.truckCr && !cs.some(c => c.kind === 'TC')) add('TC');
       if (f.crawler && !cs.some(c => c.kind === 'CR')) add('CR');
@@ -3644,24 +3644,25 @@ const OCRR = (function () {
       if (m.psmUse) { (m.psmCases || []).forEach(c => cs.push({ kind: 'PSM', idx: 0, name: c.name, comb: c.comb, cx: c.cx, cy: c.cy }));
         const nx = ((inp.loads && inp.loads.psmX) || []).length; for (let k = 1; k <= nx; k++) cs.push({ kind: 'PSM', idx: k, name: 'Live(Add-' + (k + 1) + ')', comb: 'P' + (k + 1), cx: (inp.sec && inp.sec.L ? inp.sec.L * 5 : 995), cy: (inp.sec && inp.sec.B ? inp.sec.B * 5 : 497) }); }
       m.cases = cs; delete m.wheelCases; delete m.psmCases; delete m.psmUse; } } catch (e) { /* 무시 */ } return inp; };
-  // 케이스명·번호 자동 부여 : 이름 = Live(종류)-방향·순번 — 표준트럭하중 Live(DB-24)-11, -12(1방향) / -21, -22(2방향), 트럭 크레인 Live(Crane)-11 …, 추가하중 Live(Add)-11 …
+  // 케이스명·번호 자동 부여 : 이름 = Live(종류)-방향·순번 — 표준트럭하중 Live(KL-510)-11, -12(1방향) / -21, -22(2방향), 트럭 크레인 Live(Crane)-11 …, 추가하중 Live(Add)-11 …
   //   (추가하중이 2개 이상이면 Live(Add-1)-11, Live(Add-2)-11 …). 자동 이름 형식('Live(…)-숫자')인 케이스만 갱신, 직접 고친 이름은 그대로 둠
   const AUTO_NAME = /^Live\([A-Za-z0-9-]+\)(-\d+)?$/;
   const autoNameCases = inp => { try { const cs = inp && inp.mct && inp.mct.cases; if (!cs) return inp;
       const multi = 1 + ((inp.loads && inp.loads.psmX) || []).length > 1, cnt = {};
       cs.forEach(c => { if (!AUTO_NAME.test(c.name || '')) return;
         const kind = c.kind === 'PSM' ? 'PSM' : c.kind === 'TC' ? 'TC' : c.kind === 'CR' ? 'CR' : 'DB', d = c.type === 2 ? 2 : 1, set = kind === 'PSM' ? (c.idx || 0) : 0, key = kind + set + '/' + d, n = (cnt[key] = (cnt[key] || 0) + 1), suf = '' + d + n;
-        c.name = (kind === 'DB' ? 'Live(DB-24)-' : kind === 'TC' ? 'Live(Crane)-' : kind === 'CR' ? 'Live(Crawler)-' : multi ? 'Live(Add-' + (set + 1) + ')-' : 'Live(Add)-') + suf;
+        c.name = (kind === 'DB' ? 'Live(KL-510)-' : kind === 'TC' ? 'Live(Crane)-' : kind === 'CR' ? 'Live(Crawler)-' : multi ? 'Live(Add-' + (set + 1) + ')-' : 'Live(Add)-') + suf;
         c.comb = kind === 'DB' ? suf : kind === 'TC' ? 'T' + suf : kind === 'CR' ? 'C' + suf : 'P' + (multi ? (set + 1) + '-' : '') + suf; }); } catch (e) { /* 무시 */ } return inp; };
   // 예전 저장값 : 표시 체크 기본값 + 재하 중심을 절대 좌표(모서리 기준) → 복공판 중앙점 기준 상대 거리로 변환
   const renumberCases = inp => { try { const m = inp && inp.mct; if (!m || !m.cases) return inp;
       m.cases.forEach(c => { if (c.show === undefined) c.show = true; });
       if (!m.relPos) { const X0 = (inp.sec && inp.sec.L ? inp.sec.L : 199) * 5, Y0 = (inp.sec && inp.sec.B ? inp.sec.B : 99.4) * 5; m.cases.forEach(c => { c.cx = Math.round((c.cx - X0) * 100) / 100; c.cy = Math.round((c.cy - Y0) * 100) / 100; }); m.relPos = true; } } catch (e) { /* 무시 */ } return inp; };
-  const legacy = inp => { migrateCases(inp); renumberCases(inp); autoNameCases(inp); try { { const mt = inp && inp.mat; if (mt) { if (!mt.lfGrade) mt.lfGrade = mt.bhGrade; if (!mt.diaGrade || mt.diaGradeV !== 2) mt.diaGrade = 'SS275'; mt.diaGradeV = 2; } if (inp && inp.mct) { inp.mct.crane = true; inp.mct.groups = true; { const og = { 'u-db11': 1, 'u-db21': 2, 'u-tc11': 3, 'u-cr11': 3 }, rs = Array.isArray(inp.mct.lcb) ? inp.mct.lcb.filter(r => og[r.src]) : []; if (rs.length && rs.every(r => r.gu === undefined || r.gu === og[r.src])) rs.forEach(r => { delete r.gu; }); }   /* 예전 기본 ENV 묶음(1·2·3·3)이 저장돼 있으면 새 기본(DB-24 = ENV1, 크레인류 = ENV2)으로 */ inp.mct.diaph = true; inp.mct.diaN = [2, 3, 5, 7].includes(+inp.mct.diaN) ? +inp.mct.diaN : 3; if (!Array.isArray(inp.mct.diaD)) inp.mct.diaD = []; if (!Array.isArray(inp.mct.nDivs)) inp.mct.nDivs = inp.mct.nMid > 0 ? [Math.round(inp.mct.nMid)] : []; } } const r3 = inp && inp.res3d; if (r3 && Array.isArray(r3.combos)) { const mp = id => /^C[1-4]$/.test(String(id)) ? 'ENV' + String(id).slice(1) : id; r3.combos.forEach(c => { c.id = mp(c.id); if (c.mctName) c.mctName = mp(c.mctName); }); if (r3.data) { const nd = {}; Object.keys(r3.data).forEach(k => { nd[mp(k)] = r3.data[k]; }); r3.data = nd; } } const w = inp && inp.loads && inp.loads.work; if (w) w.use = false;   // 크레인 작업하중(엑셀 1.2) 항목은 삭제됨
+  const legacy = inp => { migrateCases(inp); renumberCases(inp); autoNameCases(inp); try { { const mt = inp && inp.mat; if (mt) { if (!mt.lfGrade) mt.lfGrade = mt.bhGrade; if (!mt.diaGrade || mt.diaGradeV !== 2) mt.diaGrade = 'SS275'; mt.diaGradeV = 2; } if (inp && inp.mct) { inp.mct.crane = true; inp.mct.groups = true; { const og = { 'u-db11': 1, 'u-db21': 2, 'u-tc11': 3, 'u-cr11': 3 }, rs = Array.isArray(inp.mct.lcb) ? inp.mct.lcb.filter(r => og[r.src]) : []; if (rs.length && rs.every(r => r.gu === undefined || r.gu === og[r.src])) rs.forEach(r => { delete r.gu; }); }   /* 예전 기본 ENV 묶음(1·2·3·3)이 저장돼 있으면 새 기본(KL-510 = ENV1, 크레인류 = ENV2)으로 */ inp.mct.diaph = true; inp.mct.diaN = [2, 3, 5, 7].includes(+inp.mct.diaN) ? +inp.mct.diaN : 3; if (!Array.isArray(inp.mct.diaD)) inp.mct.diaD = []; if (!Array.isArray(inp.mct.nDivs)) inp.mct.nDivs = inp.mct.nMid > 0 ? [Math.round(inp.mct.nMid)] : []; } } const r3 = inp && inp.res3d; if (r3 && Array.isArray(r3.combos)) { const mp = id => /^C[1-4]$/.test(String(id)) ? 'ENV' + String(id).slice(1) : id; r3.combos.forEach(c => { c.id = mp(c.id); if (c.mctName) c.mctName = mp(c.mctName); }); if (r3.data) { const nd = {}; Object.keys(r3.data).forEach(k => { nd[mp(k)] = r3.data[k]; }); r3.data = nd; } } const w = inp && inp.loads && inp.loads.work; if (w) w.use = false;   // 크레인 작업하중(엑셀 1.2) 항목은 삭제됨
        if (w && w.use === undefined && w.incl2D !== undefined) w.use = !!w.incl2D; const ps = inp && inp.loads && [inp.loads.psm].concat(inp.loads.psmX || []);   // 추가하중 : 등분포 q(kN/m) → 하중 크기 P(kN) = q × 재하길이
        if (ps) ps.forEach(it => { if (it && it.q2D !== undefined) { if (it.type !== '집중하중') { const pa = it.pa !== undefined ? it.pa : 0.72; it.P2D = Math.round(it.q2D * pa * 1e6) / 1e6; } delete it.q2D; } });
        const c = inp && inp.loads && inp.loads.crawler; if (c && c.area !== undefined && c.a === undefined) { c.b = 0.6; c.a = c.area / 0.6; } } catch (e) { /* 무시 */ } return inp; };
-  const migrate = inp => { if (inp && inp.meta && inp.meta.project === 'TB-복공판 구조계산서') inp.meta.project = 'OO 도로건설공사'; return inp; };   // 예전 기본 프로젝트명 → 새 기본값
+  const renameStr = (o, d) => { if (!o || typeof o !== 'object' || d > 6) return; Object.keys(o).forEach(k => { const v = o[k]; if (typeof v === 'string') { if (v.length < 300 && v.indexOf('DB-24') >= 0) o[k] = v.split('DB-24').join('KL-510'); } else if (v && typeof v === 'object' && !(v.length > 200)) renameStr(v, d + 1); }); };
+  const migrate = inp => { if (inp && inp.meta && inp.meta.project === 'TB-복공판 구조계산서') inp.meta.project = 'OO 도로건설공사'; if (inp) { renameStr(inp.loads, 0); renameStr(inp.mct, 0); } return inp; };   // 표준트럭 명칭 DB-24 → KL-510 (예전 저장값 포함)   // 예전 기본 프로젝트명 → 새 기본값
   function restore() {
     try {
       const raw = localStorage.getItem(LS_KEY); if (!raw) return false;
@@ -3877,7 +3878,7 @@ const OCRR = (function () {
         wkItem('레미콘', 'loads.mix.use', 'mixer', [num('loads.mix.W', '총중량 W', { unit: 'kN' }), num('loads.mix.f2', '재하계수')]),
         wkItem('크롤러 크레인', 'loads.crawler.use', 'crawler', [num('loads.crawler.W', '총중량 W', { unit: 'kN' }), num('loads.crawler.f', '재하계수'), pairFld('궤도면적 a × b', 'loads.crawler.a', 'loads.crawler.b', 'm')]),
         wkItem('트럭 크레인', 'loads.truckCr.use', 'truck', [num('loads.truckCr.W', '총중량 W', { unit: 'kN' }), num('loads.truckCr.f', '재하계수'), pairFld('아웃트리거 지지패널 B × L', 'loads.truckCr.padB', 'loads.truckCr.padL', 'm')], h('div', { class: 'wkfig', id: 'tcFig', html: truckFigSvg(S.inp) }))),
-      (() => { const g = grid(num('loads.db24.W', '총중량 W', { unit: 'kN' }), num('loads.db24.f', '재하계수'), num('loads.db24.ca', '접지 짧은변', { unit: 'm' }), num('loads.db24.cb', '접지 긴변', { unit: 'm' })); return [useHead('loads.db24.use', '표준트럭하중 (DB-24)', g), g]; })(),
+      (() => { const g = grid(num('loads.db24.W', '총중량 W', { unit: 'kN' }), num('loads.db24.f', '재하계수'), num('loads.db24.ca', '접지 짧은변', { unit: 'm' }), num('loads.db24.cb', '접지 긴변', { unit: 'm' })); return [useHead('loads.db24.use', '표준트럭하중 (KL-510)', g), g]; })(),
       (() => {
         // 추가하중 : 머리글 체크 = 전체 적용 / 한 세트 = 하중 이름 · 하중 형태 · 하중 크기 · 하중 재하 길이 × 폭 · 재하계수 / + 버튼으로 세트 추가
         const wrap = h('div', { class: 'psmwrap' });
@@ -4173,7 +4174,7 @@ const OCRR = (function () {
       h('div', { class: 'figbox' }, h('div', { class: 'figcap', text: '해석모델 평면 (x-y)' }),
       h('div', { class: 'planwrap' }, h('canvas', { id: 'planCanvas', class: 'secimg' }),
       ))));
-    root.appendChild(card('하중 재하', '재하 케이스마다 하중 종류와 재하 중심을 복공판 중앙점에서 떨어진 거리 x, y (mm, 길이 방향 +x / 폭 방향 +y)로 지정합니다 (0, 0 = 복공판 중앙). 설계하중(1. 설계조건)에서 체크한 하중은 재하 케이스가 자동으로 만들어지고, 체크를 해제하면 표에서 사라집니다 (+ 버튼도 체크한 하중만 표시). 케이스명은 Live(종류)-방향·순번(예 Live(DB-24)-11, -12, -21)으로 자동 부여됩니다.', h('div', { id: 'caseTable' }),
+    root.appendChild(card('하중 재하', '재하 케이스마다 하중 종류와 재하 중심을 복공판 중앙점에서 떨어진 거리 x, y (mm, 길이 방향 +x / 폭 방향 +y)로 지정합니다 (0, 0 = 복공판 중앙). 설계하중(1. 설계조건)에서 체크한 하중은 재하 케이스가 자동으로 만들어지고, 체크를 해제하면 표에서 사라집니다 (+ 버튼도 체크한 하중만 표시). 케이스명은 Live(종류)-방향·순번(예 Live(KL-510)-11, -12, -21)으로 자동 부여됩니다.', h('div', { id: 'caseTable' }),
       h('div', { class: 'row', id: 'caseAdd' }),
       h('div', { id: 'caseWarn' })));
     root.appendChild(card('하중 조합', '재하 위치마다 LCB(자중 + 해당 활하중)가 자동 생성되고, 구성·계수는 표에서 수정할 수 있습니다. LCB는 하중 종류별 ENV1~ENV5로 묶이고, 모두 최종 ENV로 Envelope 됩니다.', h('div', { id: 'comboInfo' })));
@@ -4209,7 +4210,7 @@ const OCRR = (function () {
   const KORDER = { DB: 0, TC: 1, CR: 2, PSM: 3 };                                              // 표시 순서 : 표준트럭하중 → 트럭 크레인 → 추가하중
   const tmpComb = (kind, taken) => { let n = 1; const pre = kind === 'DB' ? 'D' : kind === 'TC' ? 'T' : kind === 'CR' ? 'C' : 'P'; while (taken.has(pre + 'x' + n)) n++; return pre + 'x' + n; };   // 임시 번호 (자동 명명에서 확정)
   function addCase(kind, idx) {
-    const cs = S.inp.mct.cases, taken = new Set(cs.map(c => String(c.comb))), base = { name: kind === 'DB' ? 'Live(DB-24)' : kind === 'TC' ? 'Live(Crane)' : kind === 'CR' ? 'Live(Crawler)' : 'Live(Add)', comb: tmpComb(kind, taken), cx: 0, cy: 0, type: 1, show: true };
+    const cs = S.inp.mct.cases, taken = new Set(cs.map(c => String(c.comb))), base = { name: kind === 'DB' ? 'Live(KL-510)' : kind === 'TC' ? 'Live(Crane)' : kind === 'CR' ? 'Live(Crawler)' : 'Live(Add)', comb: tmpComb(kind, taken), cx: 0, cy: 0, type: 1, show: true };
     if (kind === 'DB') cs.push(Object.assign({ kind: 'DB' }, base));
     else if (kind === 'TC') cs.push(Object.assign({ kind: 'TC' }, base));
     else if (kind === 'CR') cs.push(Object.assign({ kind: 'CR' }, base));
@@ -4231,12 +4232,12 @@ const OCRR = (function () {
     const ld = C.c3 && C.c3.ld, pv = c => { if (!ld) return ''; const v = c.kind === 'PSM' ? (ld.psms[c.idx] ? ld.psms[c.idx].pClip : null) : c.kind === 'TC' ? ld.tcPt : c.kind === 'CR' ? ld.craneP : ld.wheelP; return v == null || !isFinite(v) ? '-' : f(v, 1); };
     const rows = order.map(({ c }) => {
       const mk = (key, type) => { const el = h('input', { type: type || 'text', class: type === 'number' ? 'n s' : 't s', value: c[key], step: 'any' }); el.addEventListener('input', () => { c[key] = type === 'number' ? parseFloat(el.value) : el.value; if (type === 'number' && !isFinite(c[key])) return; changed(true); }); return el; };
-      const kind = h('select', { class: 's' }, h('option', { value: 'DB', text: '표준트럭하중 (DB-24)' }), h('option', { value: 'TC', text: '트럭 크레인' }), h('option', { value: 'CR', text: '크롤러 크레인' }), ...Array.from({ length: psmCount() }, (_, k) => h('option', { value: 'P' + k, text: psmLabel(k) })));
+      const kind = h('select', { class: 's' }, h('option', { value: 'DB', text: '표준트럭하중 (KL-510)' }), h('option', { value: 'TC', text: '트럭 크레인' }), h('option', { value: 'CR', text: '크롤러 크레인' }), ...Array.from({ length: psmCount() }, (_, k) => h('option', { value: 'P' + k, text: psmLabel(k) })));
       kind.value = c.kind === 'PSM' ? 'P' + (c.idx || 0) : (c.kind === 'TC' ? 'TC' : c.kind === 'CR' ? 'CR' : 'DB');
       kind.addEventListener('change', () => {
         const v = kind.value, taken = new Set(cs.filter(x => x !== c).map(x => String(x.comb)));
         const nk = v === 'DB' ? 'DB' : v === 'TC' ? 'TC' : v === 'CR' ? 'CR' : 'PSM', k = nk === 'PSM' ? parseInt(v.slice(1), 10) : 0;
-        if (nk !== (c.kind || 'DB')) { c.kind = nk; c.comb = tmpComb(nk, taken); if (AUTO_NAME.test(c.name || '')) c.name = nk === 'DB' ? 'Live(DB-24)' : nk === 'TC' ? 'Live(Crane)' : nk === 'CR' ? 'Live(Crawler)' : 'Live(Add)'; if (nk !== 'PSM') delete c.idx; }
+        if (nk !== (c.kind || 'DB')) { c.kind = nk; c.comb = tmpComb(nk, taken); if (AUTO_NAME.test(c.name || '')) c.name = nk === 'DB' ? 'Live(KL-510)' : nk === 'TC' ? 'Live(Crane)' : nk === 'CR' ? 'Live(Crawler)' : 'Live(Add)'; if (nk !== 'PSM') delete c.idx; }
         if (nk === 'PSM') c.idx = k;
         if (c.type !== 2) c.type = 1;
         if (nk === 'TC') { S.inp.loads.truckCr.use = true; const el = $('[data-path="loads.truckCr.use"]'); if (el) el.checked = true; }
