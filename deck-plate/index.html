@@ -2,8 +2,8 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=1180">
 <meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=1180">
 <title>TB-복공판 구조계산 (OCR)</title>
 <style>
 input[type=number]{-moz-appearance:textfield;appearance:textfield}input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;appearance:none;margin:0;display:none}
@@ -27,6 +27,7 @@ header#top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--c
 .status{grid-area:status;display:flex;gap:6px}
 .acts{grid-area:acts;display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding:8px 0 10px;border-top:1px solid var(--line2)}
 .acts select.btn{width:auto;padding-right:26px}
+.helpchip{margin-left:auto;cursor:help}.helpchip+.savestate{margin-left:6px}
 .savestate{margin-left:auto;font-size:12px;color:var(--mute);padding:3px 10px;border-radius:99px;background:var(--chip)}
 .savestate.file{color:var(--ok);background:var(--ok-bg);font-weight:600}.savestate.needperm,.savestate.error,.savestate.none{color:var(--warn);background:#fff3e0;font-weight:700;cursor:pointer}
 .pill{padding:3px 11px;border-radius:99px;font-weight:700;font-size:12px;border:1px solid transparent}
@@ -187,7 +188,7 @@ pre.pre{background:var(--bg);border:1px solid var(--line);border-radius:10px;pad
   .rpt table.t th:last-child,.rpt table.t td:last-child{border-right:0}.rpt table.t tr:last-child td{border-bottom:0}
   .rpt table.t tbody tr:nth-child(even) td{background:#f8fafd}
   .rpt td.al{text-align:left}.rpt td.ac{text-align:center}.rpt td.ar{text-align:right}
-  .rpt figure{margin:14px 0;text-align:center}.rpt figure img{border:1px solid #dfe6f2;border-radius:6px}.rpt figcaption{font-size:11.5px;color:#4d5c78;margin-top:6px;font-weight:600}
+  .rpt figure{margin:14px 0;text-align:center}.rpt .figgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px}.rpt .figgrid figure{margin:8px 0;break-inside:avoid;page-break-inside:avoid}.rpt figure img{border:1px solid #dfe6f2;border-radius:6px}.rpt figcaption{font-size:11.5px;color:#4d5c78;margin-top:6px;font-weight:600}
   .rpt .pb{border-top:1px dashed #c5cfe0;margin:30px 0 10px;page-break-after:always}
   .rpt .cover{text-align:center;padding:70px 0 56px;position:relative}
   .rpt .cover::before{content:"";display:block;width:68px;height:5px;margin:0 auto 34px;border-radius:3px;background:linear-gradient(90deg,#14284b,#2457c5)}
@@ -196,6 +197,7 @@ pre.pre{background:var(--bg);border:1px solid var(--line);border-radius:10px;pad
   .rpt .c-sub{font-size:17px;color:#26395e}
   .rpt .c-proj{display:inline-block;margin-top:52px;padding:9px 30px;border-top:1px solid #c5cfe0;border-bottom:1px solid #c5cfe0;font-size:15px;color:#26395e;font-weight:600}
   .rpt .c-date{margin-top:20px;font-size:14px;color:#5b6a84}
+  .rpt .c-author{margin:150px 0 0;text-align:center;font-size:19px;color:#14284b;font-weight:800;letter-spacing:5px;min-height:20px}
   .rpt .toc-author{margin:56px 0 0;text-align:center;font-size:19px;color:#14284b;font-weight:800;letter-spacing:5px;min-height:20px}
   .rpt .toc{margin:18px 40px;padding:22px 34px;border:1px solid #dfe6f2;border-radius:10px;background:#fafcff}
   .rpt .toc-h{font-size:17px;font-weight:800;text-align:center;margin-bottom:12px;letter-spacing:8px;color:#14284b}
@@ -207,7 +209,7 @@ pre.pre{background:var(--bg);border:1px solid var(--line);border-radius:10px;pad
    .rpt{font-size:12.5px;line-height:1.6;width:auto!important;max-width:none!important;overflow:visible!important}
    .rpt *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
    .rpt .cover{padding:150px 0 90px;break-after:page;page-break-after:always}
-   .rpt .toc{margin:0 20px}.rpt .toc-author{break-after:page;page-break-after:always}
+   .rpt .toc{margin:0 20px}
    .rpt h1{break-before:auto;margin-top:26px}
    .rpt h1,.rpt h2,.rpt h3{break-after:avoid;page-break-after:avoid;break-inside:avoid}
    .rpt p.jd,.rpt .eq,.rpt figure,.rpt p.note{break-inside:avoid;page-break-inside:avoid}
@@ -215,7 +217,7 @@ pre.pre{background:var(--bg);border:1px solid var(--line);border-radius:10px;pad
    .rpt{padding-right:3px!important;box-sizing:border-box}
    .rpt figure{max-width:100%;padding:0 2px;box-sizing:border-box}.rpt figure img{max-width:calc(100% - 2px)!important;height:auto;box-sizing:border-box}
    .rpt .pb{border:0;margin:0;height:0;break-after:page;page-break-after:always}
-   .rpt .cover+.pb,.rpt .toc+.pb,.rpt .toc-author+.pb{display:none}
+   .rpt .cover+.pb{display:none}
    .rpt table.t{width:calc(100% - 2px)!important;margin-right:2px;box-sizing:border-box;max-width:100%;border-radius:0;overflow:visible;font-size:11.5px;page-break-inside:auto}
    .rpt table.t thead{display:table-header-group}
    .rpt table.t.k{break-inside:avoid;page-break-inside:avoid}.rpt p.b{break-after:avoid;page-break-after:avoid}
@@ -599,7 +601,7 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
   /* ---------- 기본 입력값 (엑셀 '복공판 구조계산서.xlsx' 기준) ---------- */
   function defaults() {
     return {
-      meta: { project: 'OO 도로건설공사', title: '복공판 구조계산서', sub: '( B = 1.0 m , L = 2.0 m )', date: '2026. 11', org: '', author: '', note: '' },
+      meta: { project: 'OO 도로건설공사', title: '복공판 구조계산서', sub: '( B = 1.0 m , L = 2.0 m )', date: '2026. 11', org: '', author: '(주)OOOO', note: '' },
       sec: {
         B: 99.4,        // 복공판 폭 (cm)
         td: 0.8,        // 무늬강판(Deck) 두께 (cm)
@@ -2038,9 +2040,9 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
       const ind = /^\s*-\s/.test(l) ? '   ' : '';
       let main = l, tail = [];
       const m = /^(.*?\S)\s{2,}(\((?:[^()]|\([^()]*\))*\))(\s+\[[^\]]*\])?\s*$/.exec(l);     // 뒤에 [제외] 표시가 붙어도 인식
-      if (m && !/-{2,}>$/.test(m[1]) && !/^\((O\.K|N\.G)\)$/.test(m[2])) { main = m[1] + (m[3] || ''); tail = [ind + m[2]]; }
+      if (m && !/-{2,}>?$/.test(m[1]) && !/^\((O\.K|N\.G)\)$/.test(m[2])) { main = m[1] + (m[3] || ''); tail = [ind + m[2]]; }
       const k = main.lastIndexOf('  \u2192  ');
-      if (ew(main) > LIM && k > 0 && !/-{2,}>\s*$/.test(main.slice(0, k + 1))) return [main.slice(0, k), ind + '\u2192 ' + main.slice(k + 5).trim()].concat(tail);
+      if (ew(main) > LIM && k > 0 && !/-{2,}>?\s*$/.test(main.slice(0, k + 1))) return [main.slice(0, k), ind + '\u2192 ' + main.slice(k + 5).trim()].concat(tail);
       return [main].concat(tail);
     };
     const eq = (...lines) => B.push({ t: 'eq', lines: lines.flat().flatMap(fit) });
@@ -2054,8 +2056,8 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
     const NOI = !!ld.im.off, CMB = NOI ? 'D+L' : 'D+L+I';          // 허용응력 할증계수 선택 : D+L (충격 미적용) / D+L+I (충격 고려)
 
     /* ---------- 표지 ---------- */
-    B.push({ t: 'cover', title: inp.meta.title, sub: inp.meta.sub, project: inp.meta.project, date: inp.meta.date, org: inp.meta.org, author: inp.meta.author || '더브릿지' });
-    B.push({ t: 'toc', author: inp.meta.author || '더브릿지', items: ['1. 설계 개요', '   1.1 사용 재료의 성질', '   1.2 설계 하중', '   1.3 참고 문헌', '2. 2D 구조계산', '   2.1 단면제원', '   2.2 설계하중', '   2.3 응력검토', '   2.4 처짐검토', '3. 3D 구조해석', '   3.1 단면제원 및 모델링', '   3.2 허용응력', '   3.3 설계하중', '   3.4 응력검토', '   3.5 처짐검토', '4. 종합 검토결과'] });
+    B.push({ t: 'cover', title: inp.meta.title, sub: inp.meta.sub, project: inp.meta.project, date: inp.meta.date, org: inp.meta.org, author: inp.meta.author || '(주)OOOO' });
+    B.push({ t: 'toc', author: inp.meta.author || '(주)OOOO', items: ['1. 설계 개요', '   1.1 사용 재료의 성질', '   1.2 설계 하중', '   1.3 참고 문헌', '2. 2D 구조계산', '   2.1 단면제원', '   2.2 설계하중', '   2.3 응력검토', '   2.4 처짐검토', '3. 3D 구조해석', '   3.1 단면제원 및 모델링', '   3.2 허용응력', '   3.3 설계하중', '   3.4 응력검토', '   3.5 처짐검토', '4. 종합 검토결과'] });
     pb();
 
     /* ---------- 1. 설계 개요 ---------- */
@@ -2074,7 +2076,7 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
       ['무늬강판', m.deckGrade, f(al.deck.fa0, 0), f(al.sur, 2), f(al.reuse, 2), f(al.deck.fa, 3), f(al.deck.sa, 3)],
       ['BH-형강', m.bhGrade, f(al.bh.fa0, 0), f(al.sur, 2), f(al.reuse, 2), f(al.bh.fa, 3), f(al.bh.sa, 3)],
       ['하부플랜지', (m.lfGrade || m.bhGrade), f(al.lf.fa0, 0), f(al.sur, 2), f(al.reuse, 2), f(al.lf.fa, 3), f(al.lf.sa, 3)]
-    ], { widths: [1, 1, 1, 1, 1, 1, 1], align: 'ccrrrrr' });
+    ], { widths: [14.3, 15.7, 14.3, 14.3, 12.9, 14.3, 14.3], align: 'ccrrrrr' });
     note('* 허용응력 할증계수 ' + f(al.sur, 2) + ' (' + CMB + ' 조합' + (NOI ? ' : 충격 미적용' : ' : 충격 고려') + ') : KDS 21 10 00 가시설물 설계 일반사항 3.3.3.');
     h3('다. 강재의 물성치  (도로교 설계기준)');
     const G = m.E / (2 * (1 + m.nu));
@@ -2091,12 +2093,12 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
     if (lf.crawler) rows12.push([lo.crawler.name, f(lo.crawler.W, 0) + ' kN', f(lo.crawler.f, 2), f(lo.crawler.f * lo.crawler.W, 2) + '  (궤도면적 ' + fv(lo.crawler.a) + '×' + fv(lo.crawler.b) + ' = ' + f(lo.crawler.a * lo.crawler.b, 2) + ' m²)']);
     if (lf.truckCr) rows12.push([lo.truckCr.name, f(lo.truckCr.W, 0) + ' kN', f(lo.truckCr.f, 2), f(lo.truckCr.f * lo.truckCr.W, 1) + '  (지지패널 ' + fv(lo.truckCr.padB) + '×' + fv(lo.truckCr.padL) + ' m)']);
     if (lf.db24) rows12.push([lo.db24.name + ' (차량하중)', f(lo.db24.W, 0) + ' kN', f(lo.db24.f, 2), f(lo.db24.f * lo.db24.W, 1) + '  (접지 ' + f(lo.db24.ca, 4) + '×' + f(lo.db24.cb, 4) + ' m)']);
+    E.psmItems(lo).forEach(it => rows12.push([it.name + ' (추가하중)', f(it.P2D, 0) + ' kN', f(it.k2D, 2), f(it.P2D * it.k2D, 1) + (it.type === '집중하중' ? '  (집중하중, 3D 재하 ' + f(E.POINT_PATCH * 1000, 0) + '×' + f(E.POINT_PATCH * 1000, 0) + ' mm)' : '  (재하 ' + fv(it.pa) + '×' + fv(it.pb) + ' = ' + f(it.pa * it.pb, 2) + ' m² 등분포)')]));
     if (rows12.length) h3('나. 작업하중');
     if (rows12.length) tbl(['구분', '총중량 W', '재하계수', '재하하중 P (kN)'], rows12, { widths: [24, 15, 12.6, 48.4], align: 'lccc' });
-    E.psmItems(lo).forEach(it => note('* 추가하중 (' + it.name + ', ' + (it.type === '집중하중' ? '집중하중' : '등분포하중') + ') : ' + '하중 크기 P = ' + f(it.P2D, 0) + ' kN' + (it.type === '집중하중' ? '' : ' (재하 ' + f(it.pa, 2) + ' × ' + f(it.pb, 2) + ' m 등분포)') + ',  재하계수 ' + f(it.k2D, 2) + (it.type === '집중하중' ? ' (3D : ' + f(E.POINT_PATCH * 1000, 0) + ' × ' + f(E.POINT_PATCH * 1000, 0) + ' mm 재하)' : ',  3D 재하면적 ' + f(it.pa, 2) + ' × ' + f(it.pb, 2) + ' m') + '.'));
     B.push({ t: 'sp' });
     h2('1.3 참고 문헌');
-    ['1) KDS 24 14 30 강교설계기준(허용응력설계법), 2019', '2) 도로교 설계기준, 2010', '3) 강도로교 상세부 설계지침, 건설교통부, 2006', '4) 강구조편람, 한국강구조학회, 1995', '5) 강상판교량 설계자동화 프로그램의 실용화 연구, ㈜포스코개발 기술연구소, 1996', '6) Design Manual for Orthotropic Steel Plate Deck Bridges, AICS, 1963', '7) Maan. H. Jawad, Theory and Design of Plate and Shell Structures, 1994', '8) M.S. Troitsky, D.Sc., Orthotropic Bridges, 2nd Ed., 1987', '9) 철도설계기준 및 철도설계편람', '10) KDS 21 10 00 가시설물 설계 일반사항(2024) / KDS 21 45 00 가설교량 및 노면복공 설계기준(2024)'].forEach(t => p(t));
+    ['1) KDS 24 14 30 강교설계기준(허용응력설계법), 2019', '2) KDS 21 10 00 가시설물 설계 일반사항, 2024', '3) KDS 21 45 00 가설교량 및 노면복공 설계기준, 2024', '4) KCS 21 45 10 노면 복공, 2024', '5) KDS 24 12 21 교량 설계하중(한계상태설계법), 2021', '6) 무늬H형강 복공판 제작 및 유지관리지침, 한국강구조학회, 2024', '7) 알기쉬운 토목건축 가설구조물의 해설, 건설문화사, 2002'].forEach(t => p(t));
     pb();
 
     /* ---------- 2. 2D 구조계산 ---------- */
@@ -2147,7 +2149,8 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
     if (lf.db24) {
       p((++no) + ') 표준트럭하중 (DB-24, 차량하중)', { bold: true });
       eq('Pf = ' + f(lv.db24.P0, 1) + ' × (1+' + f(ld.im.adopt, 2) + ') = ' + f(lv.db24.P, 3) + ' kN',
-        'M = Pf·L/4 = ' + f(lv.db24.P, 3) + ' × ' + f(ld.Lm, 2) + ' / 4 = ' + U(f(lv.db24.M, 3) + ' kN·m') + ' ,  V = ' + U(f(lv.db24.V, 3) + ' kN') + '  (바퀴하중이 복공판 지점에 위치할 때 최대전단력 발생)');
+        'M = Pf·L/4 = ' + f(lv.db24.P, 3) + ' × ' + f(ld.Lm, 2) + ' / 4 = ' + U(f(lv.db24.M, 3) + ' kN·m') + ' ,  V = ' + U(f(lv.db24.V, 3) + ' kN'),
+        '(바퀴하중이 복공판 지점에 위치할 때 최대전단력 발생)');
     }
     lv.psms.forEach((ps, k) => {
       const it = ps.src;
@@ -2213,17 +2216,17 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
       ['하부 플랜지 (LFLG)', 'Plate (Thick)', f(s.tL * 10, 1) + '  (offset -' + f(s.tL * 5, 2) + ')', (m.lfGrade || m.bhGrade), f(M.groups.LFLG.length, 0)],
       ['격벽 (DIAPH)', 'Plate (Thick)', f(E.diaT(inp), 1), '-', f(M.groups.DIAPH.length, 0)],
       ['받침판', 'Plate (Thick)', f(mt.padT, 1) + '  (offset -' + f(mt.padT / 2, 2) + ')', m.bhGrade, f(M.groups.PAD.length, 0)]
-    ], { widths: [26, 20, 24, 18, 12], align: 'llrcr' });
+    ], { widths: [26, 20, 15.84, 24.84, 12], align: 'lcccr' });
     eq('모델 규모 : 절점 ' + f(M.nodes.length, 0) + '개 ,  요소 ' + f(M.elems.length, 0) + '개  (L = ' + f(M.L, 0) + ' mm ,  B = ' + f(M.W, 0) + ' mm ,  H = ' + f(s.hw * 10, 0) + ' mm)',
       '경계조건 : 지점 x = ' + f(mt.supp, 0) + ' mm (Dx, Dy, Dz 구속) ,  x = ' + f(M.L - mt.supp, 0) + ' mm (Dy, Dz 구속) ,  받침판 하면 절점',
       '자중 : MIDAS Civil 자동입력 (' + f((mt.swFactor - 1) * 100, 0) + '% 할증),  Web 간격 ' + f(M.pitch, 1) + (sc.bc.nL ? ' / ' + f(sc.bc.pitchL * 10, 1) : '') + ' mm');
-    imgBlk('model', '그림 3.1  해석모델 구성 (평면 및 하중재하 위치)', 15.5);
+    imgBlk('model', '그림 3.1  해석모델 구성 (평면 · 측면 · 단면)', 15.5);
     h2('3.2 허용응력');
     tbl(['구분', '강종', '허용응력 (MPa)', '비고'], [
       ['무늬강판', m.deckGrade, 'fa = ' + f(al.deck.faVM, 3) + ' ,  sa = ' + f(al.deck.sa, 3), 'Von-Mises ×' + f(m.vmFactor, 2) + ', 할증 ' + f(al.sur, 2) + ', ' + (m.reuse ? '재사용 ' + f(m.reuseFactor, 2) : '신재')],
       ['BH-형강', m.bhGrade, 'fa = ' + f(al.bh.faVM, 3) + ' ,  sa = ' + f(al.bh.sa, 3), 'Von-Mises ×' + f(m.vmFactor, 2) + ', 할증 ' + f(al.sur, 2) + ', ' + (m.reuse ? '재사용 ' + f(m.reuseFactor, 2) : '신재')],
       ['하부플랜지', (m.lfGrade || m.bhGrade), 'fa = ' + f(al.lf.faVM, 3) + ' ,  sa = ' + f(al.lf.sa, 3), 'Von-Mises ×' + f(m.vmFactor, 2) + ', 할증 ' + f(al.sur, 2) + ', ' + (m.reuse ? '재사용 ' + f(m.reuseFactor, 2) : '신재')]
-    ], { widths: [14, 14, 28.8, 43.2], align: 'lccl' });
+    ], { widths: [14, 24, 28.8, 33.2], align: 'lccc' });
     h2('3.3 설계하중');
     p('3.3.1 고정하중', { bold: true });
     eq('- 강재자중 : 해석 프로그램(MIDAS Civil)에서 자동입력 (' + f((mt.swFactor - 1) * 100, 0) + '% 할증)',
@@ -2243,27 +2246,36 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
     i3.psms.forEach(ps => eq('- ' + ps.label + ' : P = ' + f(ps.Pf, 0) + ' × (1+' + f(i3.im.adopt, 2) + ') = ' + f(ps.Pt, 2) + ' kN ,  면적 ' + f(ps.pa, 2) + ' × ' + f(ps.pb, 2) + ' = ' + f(ps.area, 3) + ' m²  →  ' + f(ps.p, 1) + ' kN/m²' + (ps.clipped ? '  (복공판 제원 초과 → 복공판 위의 부분만 재하)' : '')));
     p('3.3.3 하중재하', { bold: true });
     const wr = M.patches.map(pp => [pp.name, pp.kind === 'DB' ? (pp.type === 1 ? '표준트럭 직교 (CASE 1)' : '표준트럭 평행 (CASE 2)') : pp.kind === 'TC' ? '트럭 크레인' : pp.kind === 'CR' ? '크롤러 크레인' : (i3.psms[pp.idx] ? i3.psms[pp.idx].label : '추가하중'), f(pp.rx, 1) + ' , ' + f(pp.ry, 1), f(pp.dx, 1) + ' × ' + f(pp.dy, 1), f((pp.kind === 'DB' ? i3.wheelP : pp.kind === 'TC' ? i3.tcPt : pp.kind === 'CR' ? i3.craneP : (i3.psms[pp.idx] ? i3.psms[pp.idx].pClip : 0)) * (pp.k || 1), 2)]);
-    tbl(['하중 케이스', '구분', '재하 중심 x , y\n(mm, 복공판 중앙 기준)', '재하 면적 (mm)', '압력 (kN/m²)'], wr, { widths: [26, 22, 22, 18, 12], align: 'llcrr' });
+    tbl(['하중 케이스', '구분', '재하 중심 x , y\n(mm, 복공판 중앙 기준)', '재하 면적 (mm)', '압력 (kN/m²)'], wr, { widths: [19, 22, 23.9, 18, 17.1], align: 'llcrr' });
     if (M.snapNotes && M.snapNotes.length) p('※ 하중 재하 영역의 경계(x·y 방향)는 요소 분할선(Web 사이 균등분할선)에 맞추어 조정하였으며, 하중 총량이 같도록 압력을 환산하였다.', {});
+    { const its = []; for (let q = 0; img['load_' + q]; q++) its.push({ img: img['load_' + q], cap: '그림 3.2 ' + (img['load_' + q].cap || '') }); if (its.length) B.push({ t: 'imgs', items: its, wcm: 7.7 }); }
     h2('3.4 응력검토');
     p('Von-Mises 응력 기준 (KDS 21 10 00 3.3.3).  판요소 해석 결과의 최대값을 하중 조합별로 정리한다.', {});
     const R3 = c3.rows;
-    tbl(['구분', '강종', '허용응력 (MPa)'].concat(R3.map(r => r.id + ' 최대응력 (안전율)')).concat(['판정']), [
-      ['무늬강판', m.deckGrade, f(al.deck.faVM, 3)].concat(R3.map(r => r.deck === null ? '미입력' : f(r.deck, 3) + '  (' + f(r.deckSF, 2) + ')')).concat([okCell(R3.every(r => r.deck !== null) ? R3.every(r => r.deckOK) : null)]),
-      ['BH-형강', al.bhEff.grade, f(al.bhEff.faVM, 3)].concat(R3.map(r => r.bh === null ? '미입력' : f(r.bh, 3) + '  (' + f(r.bhSF, 2) + ')')).concat([okCell(R3.every(r => r.bh !== null) ? R3.every(r => r.bhOK) : null)])
-    ], { align: 'llr' + 'r'.repeat(R3.length) + 'c' });
+    // 요약표 : 부재별 최대응력(지배 하중조합) · 판정 / 상세표 : 하중조합별 최대응력 · 안전율 · 판정
+    const gov = key => { const v = R3.filter(r => r[key] !== null && r[key] !== undefined); return v.length ? v.reduce((a, b) => (b[key] > a[key] ? b : a)) : null; };
+    const gD = gov('deck'), gB = gov('bh');
+    tbl(['구분', '강종', '허용응력 (MPa)', '최대응력 (MPa)', '판정'], [
+      ['무늬강판', m.deckGrade, f(al.deck.faVM, 3), gD ? f(gD.deck, 3) + '  (' + gD.id + ')' : '미입력', okCell(R3.length && R3.every(r => r.deck !== null) ? R3.every(r => r.deckOK) : null)],
+      ['BH-형강', al.bhEff.grade, f(al.bhEff.faVM, 3), gB ? f(gB.bh, 3) + '  (' + gB.id + ')' : '미입력', okCell(R3.length && R3.every(r => r.bh !== null) ? R3.every(r => r.bhOK) : null)]
+    ], { widths: [20, 20, 20, 20, 20], align: 'llrrc' });
+    // 하중조합별 표 : 최대응력 · 안전율 (무늬강판 · BH-형강 각각) · 판정(두 부재 모두 O.K)
+    tbl(['하중조합', '무늬강판', 'BH-형강', '무늬강판', 'BH-형강', '판정'],
+      R3.map(r => [r.id, r.deck === null ? '미입력' : f(r.deck, 3), r.bh === null ? '미입력' : f(r.bh, 3), r.deck === null ? '-' : f(r.deckSF, 2), r.bh === null ? '-' : f(r.bhSF, 2),
+        okCell(r.deck !== null && r.bh !== null ? (r.deckOK && r.bhOK) : null)]),
+      { widths: [1, 1, 1, 1, 1, 1], align: 'lrrrrc', group: [{ t: '하중조합', rs: 2 }, { t: '최대응력(MPa)', cs: 2 }, { t: '안전율', cs: 2 }, { t: '판정', rs: 2 }] });
     R3.forEach((r, i) => {
       p('3.4.' + (i + 1) + ' ' + (/^LCB\d+$/.test(r.id) ? r.id + ' : ' : '') + r.title, { bold: true });
       imgBlk('deck_' + r.id, '무늬강판 Von-Mises 응력 Contour (' + r.id + ')', 15.5);
-      eq('무늬강판  최대 Von-Mises 응력 = ' + (r.deck === null ? '미입력' : f(r.deck, 3) + ' MPa   ' + (r.deckOK ? '<' : '>') + '   fa = ' + f(al.deck.faVM, 3) + ' MPa  (' + m.deckGrade + ')    ----->  (' + ok(r.deckOK) + ')'));
+      eq('무늬강판  최대 Von-Mises 응력 = ' + (r.deck === null ? '미입력' : f(r.deck, 3) + ' MPa   ' + (r.deckOK ? '<' : '>') + '   fa = ' + f(al.deck.faVM, 3) + ' MPa  (' + m.deckGrade + ')    -----  (' + ok(r.deckOK) + ')'));
       imgBlk('bh_' + r.id, 'BH-형강 Von-Mises 응력 Contour (' + r.id + ')', 15.5);
-      eq('BH-형강  최대 Von-Mises 응력 = ' + (r.bh === null ? '미입력' : f(r.bh, 3) + ' MPa   ' + (r.bhOK ? '<' : '>') + '   fa = ' + f(al.bhEff.faVM, 3) + ' MPa  (' + al.bhEff.grade + ')    ----->  (' + ok(r.bhOK) + ')'));
+      eq('BH-형강  최대 Von-Mises 응력 = ' + (r.bh === null ? '미입력' : f(r.bh, 3) + ' MPa   ' + (r.bhOK ? '<' : '>') + '   fa = ' + f(al.bhEff.faVM, 3) + ' MPa  (' + al.bhEff.grade + ')    -----  (' + ok(r.bhOK) + ')'));
     });
     h2('3.5 처짐검토');
     R3.forEach(r => imgBlk('defl_' + r.id, '수직변위 Contour (' + r.id + ')', 15.5));
-    tbl(['하중 조합', '최대 수직처짐 (mm)', '판정'], R3.map(r => [r.id, r.defl === null || r.defl === undefined ? '미입력' : f(Math.abs(r.defl), 3), okCell(r.defl === null || r.defl === undefined ? null : Math.abs(r.defl) < c3.defl.da)]), { widths: [30, 40, 30], align: 'lrc' });
+    tbl(['하중 조합', '최대 수직처짐 (mm)', '판정'], R3.map(r => [r.id, r.defl === null || r.defl === undefined ? '미입력' : f(Math.abs(r.defl), 3), okCell(r.defl === null || r.defl === undefined ? null : Math.abs(r.defl) < c3.defl.da)]), { widths: [1, 1, 1], align: 'lrc' });
     eq('δa = L / ' + inp.limitDefl + ' = ' + f(L, 0) + ' / ' + inp.limitDefl + ' = ' + f(c3.defl.da, 3) + ' mm   (KDS 21 45 00 3.3.3(3))',
-      c3.defl.dmax === null ? '최대 수직처짐 : 미입력' : 'δmax = ' + f(c3.defl.dmax, 3) + ' mm  ' + (c3.defl.ok ? '<' : '>') + '  δa = ' + f(c3.defl.da, 3) + ' mm    ----->  (' + ok(c3.defl.ok) + ')');
+      c3.defl.dmax === null ? '최대 수직처짐 : 미입력' : 'δmax = ' + f(c3.defl.dmax, 3) + ' mm  ' + (c3.defl.ok ? '<' : '>') + '  δa = ' + f(c3.defl.da, 3) + ' mm    -----  (' + ok(c3.defl.ok) + ')');
     pb();
 
     /* ---------- 4. 종합 ---------- */
@@ -2293,29 +2305,35 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
     blocks.forEach(b => {
       switch (b.t) {
         case 'cover':
-          out.push('<div class="cover"><div class="c-org">' + esc(b.org) + '</div><div class="c-title">' + esc(b.title) + '</div><div class="c-sub">' + esc(b.sub) + '</div><div class="c-proj">' + esc(b.project) + '</div><div class="c-date">' + esc(b.date) + '</div></div>'); break;
+          out.push('<div class="cover"><div class="c-org">' + esc(b.org) + '</div><div class="c-title">' + esc(b.title) + '</div><div class="c-sub">' + esc(b.sub) + '</div><div class="c-proj">' + esc(b.project) + '</div><div class="c-date">' + esc(b.date) + '</div><div class="c-author">' + esc(b.author) + '</div></div>'); break;
         case 'toc':
-          out.push('<div class="toc"><div class="toc-h">목 차</div>' + b.items.map(t => '<div class="toc-i' + (t.startsWith(' ') ? ' sub' : '') + '">' + esc(t.trim()) + '</div>').join('') + '</div><div class="toc-author">' + esc(b.author) + '</div>'); break;
+          out.push('<div class="toc"><div class="toc-h">목 차</div>' + b.items.map(t => '<div class="toc-i' + (t.startsWith(' ') ? ' sub' : '') + '">' + esc(t.trim()) + '</div>').join('') + '</div>'); break;
         case 'h1': out.push('<h1>' + esc(b.text) + '</h1>'); break;
         case 'sp': out.push('<div class="sp"></div>'); break;
         case 'h2': out.push('<h2>' + esc(b.text) + '</h2>'); break;
         case 'h3': out.push('<h3>' + esc(b.text) + '</h3>'); break;
         case 'p': {
-          const jm = /^(.*?)\s*-{3,}>\s*\((O\.K|N\.G)\)\s*$/.exec(b.text);
+          const jm = /^(.*?)\s*-{3,}>?\s*\((O\.K|N\.G)\)\s*$/.exec(b.text);
           if (jm) { const ok = jm[2] === 'O.K'; out.push('<p class="jd ' + (ok ? 'ok' : 'ng') + '">' + inlineBold(jm[1]) + '<span class="bdg' + (ok ? '' : ' ng') + '">' + (ok ? 'O.K' : 'N.G') + '</span></p>'); }
           else out.push('<p' + (b.bold ? ' class="b"' : '') + '>' + inlineBold(b.text) + '</p>');
           break;
         }
         case 'note': out.push('<p class="note">' + esc(b.text) + '</p>'); break;
-        case 'eq': out.push('<div class="eq">' + b.lines.map(l => '<div>' + esc(l).replace(/\u27e6/g, '<u>').replace(/\u27e7/g, '</u>') + '</div>').join('') + '</div>'); break;
+        case 'eq': out.push('<div class="eq">' + b.lines.map(l => '<div>' + esc(l).replace(/\u27e6/g, '<u>').replace(/\u27e7/g, '</u>').replace(/\(N\.G\)/g, '<b style="color:#c00000">(N.G)</b>') + '</div>').join('') + '</div>'); break;
         case 'pb': out.push('<div class="pb"></div>'); break;
-        case 'img': out.push('<figure><img src="' + b.img.url + '" style="max-width:100%"><figcaption>' + esc(b.cap) + '</figcaption></figure>'); break;
+        case 'imgs': out.push('<div class="figgrid">' + b.items.map(it => '<figure><img src="' + it.img.url + '" style="max-width:100%"><figcaption>' + esc(it.cap) + '</figcaption></figure>').join('') + '</div>'); break;
+        case 'img': out.push('<figure><img src="' + b.img.url + '" style="max-width:100%">' + (b.cap ? '<figcaption>' + esc(b.cap) + '</figcaption>' : '') + '</figure>'); break;
         case 'table': {
           const al = (b.align || '').split(''), w = b.widths, n = b.head.length;
           const tb = (c0, c1, style) => {                         // 열 c0 ~ c1-1 만으로 표 1개 생성
             const ww = w ? w.slice(c0, c1) : null, sm = ww ? ww.reduce((a, v) => a + v, 0) : 0;
             let h = '<table class="t' + (b.rows.length <= 16 ? ' k' : '') + '"' + (style ? ' style="' + style + '"' : '') + '>';
             if (ww) h += '<colgroup>' + ww.map(x => '<col style="width:' + (x / sm * 100).toFixed(2) + '%">').join('') + '</colgroup>';
+            if (b.group && c0 === 0 && c1 === n) {                  // 2단 머리글 : 묶음(colspan) · 세로 병합(rowspan)
+              const cov = []; let ci = 0;
+              h += '<thead><tr>' + b.group.map(g => { const cs = g.cs || 1, rs = g.rs || 1; for (let q = 0; q < cs; q++) cov[ci + q] = rs > 1; ci += cs; return '<th' + (cs > 1 ? ' colspan="' + cs + '"' : '') + (rs > 1 ? ' rowspan="' + rs + '"' : '') + '>' + esc(g.t) + '</th>'; }).join('') + '</tr><tr>'
+                + b.head.map((x, q) => cov[q] ? '' : '<th style="border-right:1px solid #cdd8ea">' + esc(x) + '</th>').join('') + '</tr></thead><tbody>';
+            } else
             h += '<thead><tr>' + b.head.slice(c0, c1).map(x => '<th>' + esc(x).replace(/\n/g, '<br>') + '</th>').join('') + '</tr></thead><tbody>';
             b.rows.forEach(r => {
               h += '<tr>' + r.slice(c0, c1).map((c, k) => {
@@ -2357,7 +2375,7 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
   .rpt table.t th:last-child,.rpt table.t td:last-child{border-right:0}.rpt table.t tr:last-child td{border-bottom:0}
   .rpt table.t tbody tr:nth-child(even) td{background:#f8fafd}
   .rpt td.al{text-align:left}.rpt td.ac{text-align:center}.rpt td.ar{text-align:right}
-  .rpt figure{margin:14px 0;text-align:center}.rpt figure img{border:1px solid #dfe6f2;border-radius:6px}.rpt figcaption{font-size:11.5px;color:#4d5c78;margin-top:6px;font-weight:600}
+  .rpt figure{margin:14px 0;text-align:center}.rpt .figgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px}.rpt .figgrid figure{margin:8px 0;break-inside:avoid;page-break-inside:avoid}.rpt figure img{border:1px solid #dfe6f2;border-radius:6px}.rpt figcaption{font-size:11.5px;color:#4d5c78;margin-top:6px;font-weight:600}
   .rpt .pb{border-top:1px dashed #c5cfe0;margin:30px 0 10px;page-break-after:always}
   .rpt .cover{text-align:center;padding:70px 0 56px;position:relative}
   .rpt .cover::before{content:"";display:block;width:68px;height:5px;margin:0 auto 34px;border-radius:3px;background:linear-gradient(90deg,#14284b,#2457c5)}
@@ -2366,6 +2384,7 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
   .rpt .c-sub{font-size:17px;color:#26395e}
   .rpt .c-proj{display:inline-block;margin-top:52px;padding:9px 30px;border-top:1px solid #c5cfe0;border-bottom:1px solid #c5cfe0;font-size:15px;color:#26395e;font-weight:600}
   .rpt .c-date{margin-top:20px;font-size:14px;color:#5b6a84}
+  .rpt .c-author{margin:150px 0 0;text-align:center;font-size:19px;color:#14284b;font-weight:800;letter-spacing:5px;min-height:20px}
   .rpt .toc-author{margin:56px 0 0;text-align:center;font-size:19px;color:#14284b;font-weight:800;letter-spacing:5px;min-height:20px}
   .rpt .toc{margin:18px 40px;padding:22px 34px;border:1px solid #dfe6f2;border-radius:10px;background:#fafcff}
   .rpt .toc-h{font-size:17px;font-weight:800;text-align:center;margin-bottom:12px;letter-spacing:8px;color:#14284b}
@@ -2377,7 +2396,7 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
    .rpt{font-size:12.5px;line-height:1.6;width:auto!important;max-width:none!important;overflow:visible!important}
    .rpt *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
    .rpt .cover{padding:150px 0 90px;break-after:page;page-break-after:always}
-   .rpt .toc{margin:0 20px}.rpt .toc-author{break-after:page;page-break-after:always}
+   .rpt .toc{margin:0 20px}
    .rpt h1{break-before:auto;margin-top:26px}
    .rpt h1,.rpt h2,.rpt h3{break-after:avoid;page-break-after:avoid;break-inside:avoid}
    .rpt p.jd,.rpt .eq,.rpt figure,.rpt p.note{break-inside:avoid;page-break-inside:avoid}
@@ -2385,7 +2404,7 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
    .rpt{padding-right:3px!important;box-sizing:border-box}
    .rpt figure{max-width:100%;padding:0 2px;box-sizing:border-box}.rpt figure img{max-width:calc(100% - 2px)!important;height:auto;box-sizing:border-box}
    .rpt .pb{border:0;margin:0;height:0;break-after:page;page-break-after:always}
-   .rpt .cover+.pb,.rpt .toc+.pb,.rpt .toc-author+.pb{display:none}
+   .rpt .cover+.pb{display:none}
    .rpt table.t{width:calc(100% - 2px)!important;margin-right:2px;box-sizing:border-box;max-width:100%;border-radius:0;overflow:visible;font-size:11.5px;page-break-inside:auto}
    .rpt table.t thead{display:table-header-group}
    .rpt table.t.k{break-inside:avoid;page-break-inside:avoid}.rpt p.b{break-after:avoid;page-break-after:avoid}
@@ -2464,12 +2483,29 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
       const o = cellOf(c), a = head ? 'c' : (o.align || al[i] || 'l'), jc = a === 'c' ? 'center' : a === 'r' ? 'right' : 'left';
       return '<w:tc><w:tcPr><w:tcW w:w="' + w[i] + '" w:type="dxa"/>' + (head ? '<w:tcBorders><w:bottom w:val="single" w:sz="6" w:space="0" w:color="B9C5DA"/></w:tcBorders><w:shd w:val="clear" w:color="auto" w:fill="E4ECF8"/>' : zebra ? '<w:shd w:val="clear" w:color="auto" w:fill="F8FAFD"/>' : '') + '<w:vAlign w:val="center"/></w:tcPr>' + para(run(o.text, { sz: 18, b: head || o.bold, color: head ? '14284B' : o.color || '14203A' }), { jc, after: 0, line: 252, keep }) + '</w:tc>';
     };
+    if (b.group) {                                                // 2단 머리글 (colspan · rowspan)
+      const hc = (txt, c0, cs, vm) => { const wd = w.slice(c0, c0 + cs).reduce((q, v) => q + v, 0); return '<w:tc><w:tcPr><w:tcW w:w="' + wd + '" w:type="dxa"/>' + (cs > 1 ? '<w:gridSpan w:val="' + cs + '"/>' : '') + (vm ? '<w:vMerge' + (vm === 'restart' ? ' w:val="restart"' : '') + '/>' : '') + '<w:tcBorders><w:bottom w:val="single" w:sz="6" w:space="0" w:color="B9C5DA"/></w:tcBorders><w:shd w:val="clear" w:color="auto" w:fill="E4ECF8"/><w:vAlign w:val="center"/></w:tcPr>' + para(run(txt || '', { sz: 18, b: true, color: '14284B' }), { jc: 'center', after: 0, line: 252, keep: true }) + '</w:tc>'; };
+      let r1 = '', r2 = '', ci = 0;
+      b.group.forEach(g => { const cs = g.cs || 1, rs = g.rs || 1; r1 += hc(g.t, ci, cs, rs > 1 ? 'restart' : null); for (let q = 0; q < cs; q++) r2 += rs > 1 ? hc('', ci + q, 1, 'cont') : hc(b.head[ci + q], ci + q, 1, null); ci += cs; });
+      x += '<w:tr><w:trPr><w:cantSplit/><w:tblHeader/></w:trPr>' + r1 + '</w:tr><w:tr><w:trPr><w:cantSplit/><w:tblHeader/></w:trPr>' + r2 + '</w:tr>';
+    } else
     x += '<w:tr><w:trPr><w:cantSplit/><w:tblHeader/></w:trPr>' + b.head.map((h, i) => cell(h, i, true, false, true)).join('') + '</w:tr>';
     b.rows.forEach((r, ri) => { x += '<w:tr><w:trPr><w:cantSplit/></w:trPr>' + r.map((c, i) => cell(c, i, false, ri % 2 === 1, keepAll && ri < b.rows.length - 1)).join('') + '</w:tr>'; });
     return x + '</w:tbl>' + para('', { after: 40, line: 120 });
   }
+  // Word(·PDF) 출력분에서는 3.1 단면제원 표의 두께 offset 표기 '  (offset +x.xx)' 를 뺀다 (화면 HTML 에는 그대로 표시)
+  const noOff = t => typeof t === 'string' ? t.replace(/\s*\(offset\s*[+\-\u2212]?\s*[\d.]+\)/g, '') : t;
+  const stripOff = blocks => blocks.map(b => b.t !== 'table' ? b : Object.assign({}, b, { rows: b.rows.map(r => r.map(c => (c && typeof c === 'object') ? Object.assign({}, c, { text: noOff(c.text) }) : noOff(c))) }));
   function toDocx(blocks) {
+    blocks = stripOff(blocks);
     const body = [], media = []; let rid = 10;
+    const imgXml = (img, wcm) => {
+      const m = String(img.url).match(/^data:image\/(png|jpeg|jpg|gif);base64,(.*)$/); if (!m) return '';
+      const ext = m[1] === 'jpeg' ? 'jpg' : m[1], name = 'image' + (media.length + 1) + '.' + ext, id = 'rId' + (rid++);
+      media.push({ name, id, data: b64ToU8(m[2]), ext });
+      const cx = Math.round(wcm * 360000), cy = Math.round(cx * (img.h / img.w));
+      return para('<w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="' + cx + '" cy="' + cy + '"/><wp:docPr id="' + (rid) + '" name="' + name + '"/><a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:nvPicPr><pic:cNvPr id="' + rid + '" name="' + name + '"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="' + id + '"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="' + cx + '" cy="' + cy + '"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:ln><a:noFill/></a:ln></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r>', { jc: 'center', keep: true, after: 20 });
+    };
     blocks.forEach(b => {
       switch (b.t) {
         case 'cover':
@@ -2477,31 +2513,36 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
             para(run(b.org, { sz: 26, color: '5B6A84', b: true, sp: 120 }), { jc: 'center' }), para(run(b.title, { sz: 76, b: true, color: '14284B' }), { jc: 'center', before: 400, after: 200 }),
             para(run(b.sub, { sz: 32, color: '26395E' }), { jc: 'center' }),
             para(run(b.project, { sz: 28, b: true, color: '26395E' }), { jc: 'center', before: 1100, after: 120, ind: 1500, indR: 1500, bt: ['C5CFE0', 6, 8], bb: ['C5CFE0', 6, 8] }),
-            para(run(b.date, { sz: 28, color: '5B6A84' }), { jc: 'center', before: 300 })); break;
+            para(run(b.date, { sz: 28, color: '5B6A84' }), { jc: 'center', before: 300 }),
+            para(run(b.author || ' ', { sz: 36, b: true, color: '14284B', sp: 80 }), { jc: 'center', before: 2200, after: 0 })); break;
         case 'toc':
           body.push('<w:p><w:r><w:br w:type="page"/></w:r></w:p>', para(run('목  차', { sz: 36, b: true, color: '14284B', sp: 160 }), { jc: 'center', before: 200, after: 360 }));
           b.items.forEach(t => { const sub = t.startsWith(' '); body.push(para(run(t.trim(), { sz: sub ? 21 : 24, b: !sub, color: sub ? '3A4A68' : '14284B' }), { ind: sub ? 560 : 0, before: sub ? 0 : 60, after: 50, bb: ['C5CFE0', 4, 2, 'dotted'] })); });
-          body.push(para(run(b.author || ' ', { sz: 36, b: true, color: '14284B', sp: 80 }), { jc: 'center', before: 800, after: 0 })); break;
+          break;
         case 'h1': body.push(para(run(b.text, { sz: 30, b: true, color: '14284B' }), { style: 'Heading1', keep: true, before: 360, after: 180, bb: ['14284B', 12, 4] })); break;
         case 'sp': body.push(para(run(' '), { after: 120 })); break;
         case 'h2': body.push(para(run(b.text, { sz: 24, b: true, color: '14284B' }), { style: 'Heading2', keep: true, before: 280, after: 110 })); break;
         case 'h3': body.push(para(run('■ ', { sz: 14, color: '2457C5' }) + run(b.text, { sz: 21, b: true, color: '26395E' }), { style: 'Heading3', keep: true, before: 200, after: 70 })); break;
         case 'p': {
-          const jm = /^(.*?)\s*-{3,}>\s*\((O\.K|N\.G)\)\s*$/.exec(b.text), O = { sz: 19, color: '14203A' };
+          const jm = /^(.*?)\s*-{3,}>?\s*\((O\.K|N\.G)\)\s*$/.exec(b.text), O = { sz: 19, color: '14203A' };
           if (jm) { const ok = jm[2] === 'O.K'; body.push(para(runsB(jm[1], O) + run('  ', O) + run(' ' + jm[2] + ' ', { sz: 18, b: true, color: 'FFFFFF', shd: ok ? '13803A' : 'C62828' }), { shd: ok ? 'EAF6EF' : 'FDEEEE', bl: [ok ? '13803A' : 'C62828', 18, 6], ind: 140, before: 80, after: 80, nosplit: true })); }
           else body.push(para(runsB(b.text, Object.assign({ b: b.bold }, O)), { keep: b.bold })); break;
         }
         case 'note': body.push(para(run(b.text, { sz: 17, color: '5B6A84' }), {})); break;
-        case 'eq': b.lines.forEach((l, i) => body.push(para(l.split(/(⟦.*?⟧)/).filter(Boolean).map(t => t[0] === '⟦' ? run(t.slice(1, -1), { sz: 19, u: 1, color: '14203A' }) : run(t, { sz: 19, color: '14203A' })).join(''), { shd: 'F5F8FD', bl: ['4B5563', 18, 6], ind: 140, keep: i < b.lines.length - 1, after: i === b.lines.length - 1 ? 120 : 0, before: i === 0 ? 60 : 0, line: 288 }))); break;
+        case 'eq': b.lines.forEach((l, i) => body.push(para(l.split(/(⟦.*?⟧|\(N\.G\))/).filter(Boolean).map(t => t[0] === '⟦' ? run(t.slice(1, -1), { sz: 19, u: 1, color: '14203A' }) : t === '(N.G)' ? run(t, { sz: 19, b: true, color: 'C00000' }) : run(t, { sz: 19, color: '14203A' })).join(''), { shd: 'F5F8FD', bl: ['4B5563', 18, 6], ind: 140, keep: i < b.lines.length - 1, after: i === b.lines.length - 1 ? 120 : 0, before: i === 0 ? 60 : 0, line: 288 }))); break;
         case 'pb': body.push('<w:p><w:r><w:br w:type="page"/></w:r></w:p>'); break;
         case 'table': body.push(docxTable(b)); break;
+        case 'imgs': {
+          const NB = ['top', 'left', 'bottom', 'right', 'insideH', 'insideV'].map(k => '<w:' + k + ' w:val="nil"/>').join(''), cw = 4819;
+          for (let q = 0; q < b.items.length; q += 2) {
+            const cells = b.items.slice(q, q + 2).map(it => '<w:tc><w:tcPr><w:tcW w:w="' + cw + '" w:type="dxa"/><w:vAlign w:val="top"/></w:tcPr>' + imgXml(it.img, b.wcm) + para(run(it.cap, { sz: 17, b: true, color: '4D5C78' }), { jc: 'center', after: 40 }) + '</w:tc>');
+            while (cells.length < 2) cells.push('<w:tc><w:tcPr><w:tcW w:w="' + cw + '" w:type="dxa"/></w:tcPr>' + para('') + '</w:tc>');
+            body.push('<w:tbl><w:tblPr><w:tblW w:w="9638" w:type="dxa"/><w:jc w:val="center"/><w:tblBorders>' + NB + '</w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="0" w:type="dxa"/><w:left w:w="40" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="40" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid><w:gridCol w:w="' + cw + '"/><w:gridCol w:w="' + cw + '"/></w:tblGrid><w:tr><w:trPr><w:cantSplit/></w:trPr>' + cells.join('') + '</w:tr></w:tbl>', para('', { after: 60, line: 120 }));
+          } break;
+        }
         case 'img': {
-          const m = String(b.img.url).match(/^data:image\/(png|jpeg|jpg|gif);base64,(.*)$/); if (!m) break;
-          const ext = m[1] === 'jpeg' ? 'jpg' : m[1], name = 'image' + (media.length + 1) + '.' + ext, id = 'rId' + (rid++);
-          media.push({ name, id, data: b64ToU8(m[2]), ext });
-          const cx = Math.round(b.wcm * 360000), cy = Math.round(cx * (b.img.h / b.img.w));
-          const imgP = para('<w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="' + cx + '" cy="' + cy + '"/><wp:docPr id="' + (rid) + '" name="' + name + '"/><a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:nvPicPr><pic:cNvPr id="' + rid + '" name="' + name + '"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="' + id + '"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="' + cx + '" cy="' + cy + '"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:ln><a:noFill/></a:ln></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r>', { jc: 'center', keep: true, after: 20 });
-          const capP = para(run(b.cap, { sz: 17, b: true, color: '4D5C78' }), { jc: 'center', after: 40 });
+          const imgP = imgXml(b.img, b.wcm); if (!imgP) break;
+          const capP = b.cap ? para(run(b.cap, { sz: 17, b: true, color: '4D5C78' }), { jc: 'center', after: 40 }) : '';
           // 외곽선 없는 1칸 표 안에 그림 + 캡션 삽입 (쪽 나눔 방지)
           body.push('<w:tbl><w:tblPr><w:tblW w:w="9638" w:type="dxa"/><w:jc w:val="center"/><w:tblBorders>' + ['top', 'left', 'bottom', 'right', 'insideH', 'insideV'].map(k => '<w:' + k + ' w:val="nil"/>').join('') + '</w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="0" w:type="dxa"/><w:left w:w="0" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="0" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid><w:gridCol w:w="9638"/></w:tblGrid><w:tr><w:trPr><w:cantSplit/></w:trPr><w:tc><w:tcPr><w:tcW w:w="9638" w:type="dxa"/><w:vAlign w:val="center"/></w:tcPr>' + imgP + capP + '</w:tc></w:tr></w:tbl>', para('', { after: 60, line: 120 })); break;
         }
@@ -2775,6 +2816,44 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
     g.fillStyle = DIM; g.font = '13px ' + CF; g.fillText('x 방향 임의 단면 (모든 부재 공통 절점선)  ·  단위 : mm', padL, ly + 36);
     return c;
   }
+  /* 계산서 그림 3.1 : 평면(x-y) 중심, 위 = 측면도(x-z), 좌 = 단면도(y-z, 90° 회전). 요소분할 · 하중 구역 · 범례 없음. 세 도면이 같은 축척 */
+  function drawModelFigure(doc, M, inp) {
+    const s = inp.sec, tD = s.td * 10, tw = s.tw * 10, tM = s.tM * 10, tL = s.tL * 10, padL = 20, padT = 26;
+    const tPad = M.groups.PAD.length ? (+inp.mct.padT || tL) : 0, zTop = M.zTop, zBot = M.zBot, zH = zTop + tD - zBot + tPad;
+    const r = zH / M.L, Wp = Math.round((1040 + 96 * r) / (1 + r));            // 합성 그림 전체 폭 ≈ 1100 (평면 단독일 때와 문구 크기가 같도록 평면 폭을 줄임)
+    const pl = drawModelPlan(doc, M, inp, { fig: true, W: Wp }), sx = (Wp - padL - 76) / M.L, hS = zH * sx;
+    const yT = 16, leftW = Math.ceil(hS) + 60, topH = yT + Math.ceil(hS) + 40, Wc = leftW + pl.width, Hc = topH + pl.height;
+    const c = doc.createElement('canvas'); c.width = Wc; c.height = Hc; const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, Wc, Hc); g.drawImage(pl, leftW, topH);
+    const px = x => leftW + padL + x * sx, py = y => topH + padT + (M.W - y) * sx, C = { deck: '#bccae0', web: '#8fa7cf', M: '#f0d29a', L: '#a9d7c0', pad: '#d9a35c' }, INK = '#1f2a3c';
+    const box = (x0, y0, x1, y1, col) => { const w = Math.max(1.2, x1 - x0), h = Math.max(1.2, y1 - y0); g.fillStyle = col; g.fillRect(x0, y0, w, h); g.strokeStyle = '#6b7a93'; g.lineWidth = .6; g.strokeRect(x0, y0, w, h); };
+    const bc = E.bayCounts(s), hasDia = !!inp.mct.diaph && M.groups.DIAPH.length > 0, padHalf = +inp.mct.padHalf || 0;
+    g.fillStyle = INK; g.textAlign = 'left';
+    // ── 측면도 (x-z)
+    const Ze = z => yT + (zTop + tD - z) * sx;
+    box(px(0), Ze(zTop), px(M.L), Ze(zBot), C.web);
+    bc.bays.forEach(tp => { if (tp === 'M' || tp === 'B') box(px(0), Ze(M.zM + tM / 2), px(M.L), Ze(M.zM - tM / 2), C.M); if (tp === 'L' || tp === 'B') box(px(0), Ze(M.zL), px(M.L), Ze(M.zL - tL), C.L); });
+    box(px(0), Ze(zTop + tD), px(M.L), Ze(zTop), C.deck);
+    g.strokeStyle = '#7f8da6'; g.lineWidth = .6;      // 요소분할선 : x 방향 절점선(전 높이) · z 방향 Web 절점 높이
+    (M.xs || []).forEach(x => { g.beginPath(); g.moveTo(px(x), Ze(zTop + tD)); g.lineTo(px(x), Ze(zBot)); g.stroke(); });
+    (M.zWeb || []).forEach(z => { g.beginPath(); g.moveTo(px(0), Ze(z)); g.lineTo(px(M.L), Ze(z)); g.stroke(); });
+    if (hasDia) { const dw = Math.max(2, E.diaT(inp) * sx); (M.diaPos || []).forEach(xd => { g.fillStyle = 'rgba(155,89,182,0.55)'; g.fillRect(px(xd) - dw / 2, Ze(zTop), dw, (zTop - M.zL + tL) * sx); }); }
+    if (tPad) [M.supp0, M.supp1].forEach(x => box(px(x - padHalf), Ze(zBot), px(x + padHalf), Ze(zBot - tPad), C.pad));
+    [[M.supp0, false], [M.supp1, true]].forEach(([x, roller]) => { const ax = px(x), ay = Ze(zBot - tPad); g.fillStyle = '#fff'; g.strokeStyle = '#c00000'; g.lineWidth = 1.4; g.beginPath(); g.moveTo(ax, ay); g.lineTo(ax - 9, ay + 14); g.lineTo(ax + 9, ay + 14); g.closePath(); g.fill(); g.stroke(); if (roller) { g.beginPath(); g.moveTo(ax - 11, ay + 18); g.lineTo(ax + 11, ay + 18); g.stroke(); } });
+    g.strokeStyle = '#000'; g.lineWidth = 1.6; g.setLineDash([8, 5]); g.beginPath(); g.moveTo(px(M.L / 2), yT - 8); g.lineTo(px(M.L / 2), Ze(zBot - tPad) + 22); g.stroke(); g.setLineDash([]);
+    // ── 단면도 (y-z, 90° 회전 : 위쪽 = +y, 왼쪽 = +z(무늬강판))
+    const hL = 26, Hs = z => hL + (zTop + tD - z) * sx;
+    box(Hs(zTop + tD), py(M.W), Hs(zTop), py(0), C.deck);
+    if (tPad) box(Hs(zBot), py(M.W), Hs(zBot - tPad), py(0), C.pad);
+    bc.bays.forEach((tp, k) => { const a = M.webY[k] + tw / 2, b = M.webY[k + 1] - tw / 2;
+      if (tp === 'M' || tp === 'B') box(Hs(M.zM + tM / 2), py(b), Hs(M.zM - tM / 2), py(a), C.M);
+      if (tp === 'L' || tp === 'B') box(Hs(M.zL), py(b), Hs(M.zL - tL), py(a), C.L); });
+    M.webY.forEach(y => box(Hs(zTop), py(y + tw / 2), Hs(zBot), py(y - tw / 2), C.web));
+    const dot = (y, z) => { g.fillStyle = INK; g.beginPath(); g.arc(Hs(z), py(y), 2.2, 0, 7); g.fill(); g.strokeStyle = '#fff'; g.lineWidth = .7; g.stroke(); };       // 절점
+    M.ysDeck.forEach(y => dot(y, zTop + tD / 2)); if (tPad) M.ysDeck.forEach(y => dot(y, zBot - tPad / 2));      // offset 는 고려하지 않고 판 두께 중심에 표시
+    M.webY.forEach(y => (M.zWeb || []).forEach(z => dot(y, z)));
+    bc.bays.forEach((tp, k) => { const yl = M.bayLines[k]; if (tp === 'M' || tp === 'B') yl.forEach(y => dot(y, M.zM)); if (tp === 'L' || tp === 'B') yl.forEach(y => dot(y, M.zL - tL / 2)); });
+    return c;
+  }
   /* 유한요소모델 3D 형상 : 판요소(부재별 색) + 하중 재하 영역(반투명) · 하중 화살표 + 지점선. 직교투영, 화가 알고리즘. opt {w,h,yaw,pitch,zoom,showDeck,force} */
   function drawModel3D(doc, M, inp, opt) {
     opt = opt || {}; const Wc = opt.w || 700, Hc = opt.h || 520, K = opt.k || 2;
@@ -2797,13 +2876,17 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
     others.sort((a, b) => b.d - a.d);
     const deck = opt.showDeck === false ? [] : elItems('DECK').sort((a, b) => b.d - a.d);
     // 하중 재하 : 투명 박스 (재하 영역 × 높이)
-    const LC = { DB: [230, 120, 30], TC: [50, 110, 210], CR: [150, 70, 170], PSM: [40, 140, 70] }, shown = M.patches.filter(pp => !(pp.show === false && String(pp.comb) !== String(opt.force)));
+    const LC = { DB: [230, 120, 30], TC: [50, 110, 210], CR: [150, 70, 170], PSM: [40, 140, 70] }, shown = opt.only ? M.patches.filter(pp => pp === opt.only) : opt.all ? M.patches.slice() : M.patches.filter(pp => !(pp.show === false && String(pp.comb) !== String(opt.force)));
     const hBox = Math.max(120, M.W * 0.14);
     const drawBoxes = () => shown.forEach(pp => { const col = LC[pp.kind] || LC.DB, z0 = zDeck + 0.8, z1 = z0 + hBox, X = [pp.x0, pp.x1], Y = [pp.y0, pp.y1];
       const P = (i, j, k) => pr(X[i], Y[j], k ? z1 : z0);
       const faces = [[P(0, 0, 0), P(1, 0, 0), P(1, 1, 0), P(0, 1, 0)], [P(0, 0, 1), P(1, 0, 1), P(1, 1, 1), P(0, 1, 1)], [P(0, 0, 0), P(1, 0, 0), P(1, 0, 1), P(0, 0, 1)], [P(0, 1, 0), P(1, 1, 0), P(1, 1, 1), P(0, 1, 1)], [P(0, 0, 0), P(0, 1, 0), P(0, 1, 1), P(0, 0, 1)], [P(1, 0, 0), P(1, 1, 0), P(1, 1, 1), P(1, 0, 1)]];
       faces.map(f => ({ f, d: (f[0].d + f[1].d + f[2].d + f[3].d) / 4 })).sort((a, b) => b.d - a.d).forEach(o => poly(o.f, col, 0.2, 'rgba(' + col.join(',') + ',0.9)', 1.1)); });
     if (above) { others.forEach(draw); deck.forEach(draw); drawBoxes(); } else { drawBoxes(); deck.forEach(draw); others.forEach(draw); }
+    if (opt.labels) { g.font = 'bold 11.5px ' + CF; g.textAlign = 'center'; const grp = {};      // 같은 위치에 겹치는 케이스는 번호를 묶어서 표시 (예 1, 2)
+      shown.forEach(pp => { const q = pr((pp.x0 + pp.x1) / 2, (pp.y0 + pp.y1) / 2, zDeck + 0.8 + hBox), key = Math.round(q.x / 8) + '_' + Math.round(q.y / 8); (grp[key] = grp[key] || { q, kind: pp.kind, n: [] }).n.push(opt.labels === 'num' ? M.patches.indexOf(pp) + 1 : pp.name); });
+      Object.keys(grp).forEach(k => { const o = grp[k], col = LC[o.kind] || LC.DB, t = o.n.join(', ');
+        g.lineJoin = 'round'; g.lineWidth = 3.5; g.strokeStyle = 'rgba(255,255,255,.95)'; g.strokeText(t, o.q.x, o.q.y - 4); g.fillStyle = 'rgb(' + col.map(v => Math.round(v * 0.75)).join(',') + ')'; g.fillText(t, o.q.x, o.q.y - 4); }); g.textAlign = 'left'; }
     // 좌표축 (x : 복공판 길이 방향, y : 폭 방향, z : 높이) — 현재 시점에 맞춰 회전
     { const ox = 44, oy = Hc - 36, Ln = 34, dv = (ax, ay, az) => { const xr = ax * cY - ay * sY, yr = ax * sY + ay * cY; return [xr, -(az * cE + yr * sE)]; };
       [['x', [1, 0, 0], '#d62020'], ['y', [0, 1, 0], '#1f9d4d'], ['z', [0, 0, 1], '#2f5fb3']].forEach(([t, v, col]) => { const d = dv(v[0], v[1], v[2]), m = Math.hypot(d[0], d[1]), ex = ox + d[0] * Ln, ey = oy + d[1] * Ln;
@@ -2811,17 +2894,57 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
         if (m > 0.12) { const ux = d[0] / m, uy = d[1] / m; g.beginPath(); g.moveTo(ex, ey); g.lineTo(ex - ux * 7 + uy * 3, ey - uy * 7 - ux * 3); g.lineTo(ex - ux * 7 - uy * 3, ey - uy * 7 + ux * 3); g.closePath(); g.fill(); }
         g.font = 'bold 12px ' + CF; g.textAlign = 'center'; g.fillText(t, ox + d[0] * (Ln + 10), oy + d[1] * (Ln + 10) + 4); });
       g.fillStyle = '#1f2a3c'; g.beginPath(); g.arc(ox, oy, 2.4, 0, 7); g.fill(); g.textAlign = 'left'; }
+    if (opt.miniPlan) {      // 우측 상단 공란 : 단면도(y-z, 90° 회전 · 재하 표시, 실제 비율) + 그 우측에 평면상 하중 배치(작은 평면도)
+      const sec = inp.sec, tD = sec.td * 10, tw = sec.tw * 10, tM = sec.tM * 10, tL = sec.tL * 10, tPad = M.groups.PAD.length ? (+inp.mct.padT || tL) : 0, zT = M.zTop, zB = M.zBot;
+      const G = miniGeom(M, inp, Wc, opt.miniScale || 1), mw = G.mw, sc = G.sc, mh = G.mh, lw = G.lw, gap = G.gap, y0 = G.y0, x0 = G.x0, zs = sc, LINE = '#000';
+      const xp = x0 + lw + G.secW + gap, PX = x => xp + x * sc, PY = y => y0 + (M.W - y) * sc, hs0 = x0, dX = hs0 + lw, Zs = z => dX + (zT + tD - z) * zs, ln = (x1, y1, x2, y2) => { g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke(); };
+      g.fillStyle = '#fff'; g.fillRect(G.box.x, G.box.y, G.box.w, G.box.h);
+      // 평면
+      g.fillStyle = '#eef2f8'; g.fillRect(xp, y0, mw, mh);
+      g.strokeStyle = LINE; g.lineWidth = .54; M.webY.forEach((y, k) => { if (k > 0 && k < M.webY.length - 1) ln(PX(0), PY(y), PX(M.L), PY(y)); });      // 상하 외측 Web선(무늬강판 가장자리와 만나는 선)은 그리지 않음
+      g.strokeStyle = '#c00000'; g.lineWidth = .6; g.setLineDash([4, 3]); [M.supp0, M.supp1].forEach(x => ln(PX(x), PY(-8), PX(x), PY(M.W + 8))); g.setLineDash([]);
+      g.strokeStyle = '#000'; g.lineWidth = .6; g.setLineDash([4, 3]); ln(PX(M.L / 2), PY(-8), PX(M.L / 2), PY(M.W + 8)); g.setLineDash([]);
+      shown.forEach(pp => { const col = LC[pp.kind] || LC.DB; g.fillStyle = 'rgba(' + col.join(',') + ',0.5)'; g.fillRect(PX(pp.x0), PY(pp.y1), (pp.x1 - pp.x0) * sc, (pp.y1 - pp.y0) * sc); g.strokeStyle = 'rgb(' + col.join(',') + ')'; g.lineWidth = 1.2; g.strokeRect(PX(pp.x0), PY(pp.y1), (pp.x1 - pp.x0) * sc, (pp.y1 - pp.y0) * sc); });
+      g.strokeStyle = LINE; g.lineWidth = .54; g.strokeRect(xp, y0, mw, mh);      // 외곽(상하 외측선 포함)
+      // 단면 (위쪽 = +y, 무늬강판이 하중 쪽(왼쪽)). 부재선은 평면 Web선과 같은 색, 하중 표시 외의 외곽선은 그리지 않음
+      const rc = (xa, ya, xb, yb, mn) => { mn = mn || .72; g.fillStyle = LINE; g.fillRect(xa, ya, Math.max(mn, xb - xa), Math.max(mn, yb - ya)); };
+      rc(Zs(zT + tD), PY(M.W), Zs(zT), PY(0), 1.44); if (tPad) rc(Zs(zB), PY(M.W), Zs(zB - tPad), PY(0));
+      M.webY.forEach(y => rc(Zs(zT), PY(y + tw / 2), Zs(zB), PY(y - tw / 2)));
+      shown.forEach(pp => { const col = LC[pp.kind] || LC.DB, ya = PY(pp.y1), yh = (pp.y1 - pp.y0) * sc, ym = ya + yh / 2;      // 재하 폭(y 방향) = 복공판 위에 놓인 하중, 아래(+z 반대) 방향 작용
+        g.fillStyle = 'rgba(' + col.join(',') + ',0.5)'; g.fillRect(hs0, ya, lw - 1, yh); g.strokeStyle = 'rgb(' + col.join(',') + ')'; g.lineWidth = 1.2; g.strokeRect(hs0, ya, lw - 1, yh);
+        g.strokeStyle = '#1f2a3c'; g.fillStyle = '#1f2a3c'; g.lineWidth = 1; ln(hs0 + 1.5, ym, dX - 1.5, ym); g.beginPath(); g.moveTo(dX - 1, ym); g.lineTo(dX - 5, ym - 2.6); g.lineTo(dX - 5, ym + 2.6); g.closePath(); g.fill(); });
+    }
+    if (!opt.noLegend) {
     // 범례 : 하중만
     g.font = '11.5px ' + CF; g.textAlign = 'left'; let lx = 10; const ly = 10;
     [['DB', '표준트럭하중'], ['TC', '트럭 크레인'], ['CR', '크롤러 크레인'], ['PSM', '추가하중']].filter(k => shown.some(pp => pp.kind === k[0])).forEach(k => { g.fillStyle = 'rgba(' + LC[k[0]].join(',') + ',.25)'; g.fillRect(lx, ly, 13, 10); g.strokeStyle = 'rgb(' + LC[k[0]].join(',') + ')'; g.lineWidth = 1; g.strokeRect(lx, ly, 13, 10); g.fillStyle = '#1f2a3c'; g.fillText(k[1], lx + 18, ly + 9); lx += g.measureText(k[1]).width + 34; });
+    }
     return c;
   }
 
+  // 3.3.3 3D 그림 우측 상단 작은 그림(단면도 + 평면도)의 치수 : f = 배율
+  function miniGeom(M, inp, Wc, f) {
+    const sec = inp.sec, tD = sec.td * 10, tL = sec.tL * 10, tPad = M.groups.PAD.length ? (+inp.mct.padT || tL) : 0, zH = M.zTop + tD - M.zBot + tPad;
+    const mw = Math.min(116, Wc * 0.18) * f, sc = mw / M.L, mh = M.W * sc, lw = 12 * f, gap = 12 * f, secW = zH * sc, tot = lw + secW + gap + mw, x0 = Wc - tot - 14 * f, y0 = 14 * f;
+    return { mw, sc, mh, lw, gap, secW, tot, x0, y0, box: { x: x0 - 5, y: y0 - 5, w: tot + 10, h: mh + 10 } };
+  }
+  /* 3.3.3 하중재하 : 하중 케이스별 3D 재하 그림 (각각 별도 이미지, 제목은 캡션 텍스트). 케이스가 홀수이면 마지막 칸은 비워 둠 → [{ canvas, cap }] */
+  function drawLoadCases(doc, M, inp) {
+    const pt = M.patches || []; if (!pt.length) return [];
+    const PW = 640, PH = 420, K = 1.5, base = { w: PW, h: PH, k: K, yaw: -35, pitch: 28, noLegend: true };
+    const clear = (cv, b) => { try { const g = cv.getContext('2d'), x = Math.max(0, Math.floor((b.x - 6) * K)), y = Math.max(0, Math.floor((b.y - 6) * K)), w = Math.min(cv.width - x, Math.ceil((b.w + 12) * K)), h = Math.min(cv.height - y, Math.ceil((b.h + 12) * K)), d = g.getImageData(x, y, w, h).data;
+      for (let q = 0; q < d.length; q += 4) if (d[q] < 244 || d[q + 1] < 244 || d[q + 2] < 244) return false; return true; } catch (e) { return true; } };
+    const out = pt.map((pp, i) => { const c0 = drawModel3D(doc, M, inp, Object.assign({ only: pp }, base)); let f = 1.5; while (f > 1.001 && !clear(c0, miniGeom(M, inp, PW, f).box)) f = Math.round((f - 0.05) * 100) / 100;
+      return { canvas: drawModel3D(doc, M, inp, Object.assign({ only: pp, miniPlan: true, miniScale: f }, base)), cap: '(' + (i + 1) + ') ' + pp.name }; });
+    return out;
+  }
   function drawModelPlan(doc, M, inp, opt) {
-    const ui = !!(opt && opt.ui);
-    const W = 1100, padL = 20, padT = ui ? 44 : 62, sx = (W - padL - 76) / M.L, H = Math.round(M.W * sx + padT + 86);
+    const ui = !!(opt && opt.ui), fig = !!(opt && opt.fig);       // fig : 계산서 그림 3.1용 (요소분할 · 하중 구역 · 제목 없음)
+    const W = (opt && opt.W) || 1100, padL = 20, padT = fig ? 26 : ui ? 44 : 62, sx = (W - padL - 76) / M.L, H = Math.round(M.W * sx + padT + 86);
     const c = doc.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d');
-    g.fillStyle = '#fff'; g.fillRect(0, 0, W, H); if (!ui) { g.font = '13px ' + CF; g.fillStyle = '#111'; g.fillText('해석모델 평면 (x-y)', padL, 22); }
+    if (fig) { const d = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(g), 'font'); if (d && d.set) Object.defineProperty(g, 'font', { get() { return d.get.call(g); }, set(v) { d.set.call(g, String(v).replace(/(\d+(?:\.\d+)?)px/, (m, n) => (n * 1.23) + 'px')); } }); }     // 그림 3.1 : 그림 2.1과 같은 인쇄 글자 크기가 되도록 글자 확대
+    if (fig) g.font = '13px ' + CF;       // 지점 · 복공판 중앙 문구 (확대 적용)
+    g.fillStyle = '#fff'; g.fillRect(0, 0, W, H); if (!ui && !fig) { g.font = '13px ' + CF; g.fillStyle = '#111'; g.fillText('해석모델 평면 (x-y)', padL, 22); }
     const px = x => padL + x * sx, py = y => padT + (M.W - y) * sx, P = id => M.nodes[id - 1];
     g.strokeStyle = '#aab4c6'; g.lineWidth = 0.6; g.fillStyle = '#eef2f8';
     g.fillRect(px(0), py(M.W), M.L * sx, M.W * sx);
@@ -2836,7 +2959,7 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
       g.fillStyle = '#9b59b6'; g.strokeStyle = '#5b2c6f'; g.lineWidth = 0.8;
       M.diaPos.forEach(xd => bcP.bays.forEach((tp, k) => { if (!(tp === 'L' || tp === 'B')) return; const ya = M.bayLines[k][0], yb2 = M.bayLines[k][M.bayLines[k].length - 1]; g.fillRect(px(xd) - tw / 2, py(yb2), tw, (yb2 - ya) * sx); g.strokeRect(px(xd) - tw / 2, py(yb2), tw, (yb2 - ya) * sx); }));
           }
-    M.patches.forEach(pp => { if (ui && pp.show === false && String(pp.comb) !== String(opt.force)) return; g.fillStyle = pp.kind === 'DB' ? 'rgba(230,120,30,0.45)' : pp.kind === 'TC' ? 'rgba(50,110,210,0.40)' : pp.kind === 'CR' ? 'rgba(150,70,170,0.40)' : 'rgba(40,140,70,0.45)'; g.fillRect(px(pp.x0), py(pp.y1), (pp.x1 - pp.x0) * sx, (pp.y1 - pp.y0) * sx); g.strokeStyle = '#7a3b00'; g.lineWidth = 1; g.strokeRect(px(pp.x0), py(pp.y1), (pp.x1 - pp.x0) * sx, (pp.y1 - pp.y0) * sx); g.fillStyle = '#111'; g.font = '11px ' + CF; g.fillText(pp.comb, px(pp.cx) - 6, py(pp.cy) - 6);
+    (fig && !opt.loads ? [] : M.patches).forEach(pp => { if (ui && pp.show === false && String(pp.comb) !== String(opt.force)) return; g.fillStyle = pp.kind === 'DB' ? 'rgba(230,120,30,0.45)' : pp.kind === 'TC' ? 'rgba(50,110,210,0.40)' : pp.kind === 'CR' ? 'rgba(150,70,170,0.40)' : 'rgba(40,140,70,0.45)'; g.fillRect(px(pp.x0), py(pp.y1), (pp.x1 - pp.x0) * sx, (pp.y1 - pp.y0) * sx); g.strokeStyle = '#7a3b00'; g.lineWidth = 1; g.strokeRect(px(pp.x0), py(pp.y1), (pp.x1 - pp.x0) * sx, (pp.y1 - pp.y0) * sx); g.fillStyle = '#111'; g.font = '11px ' + CF; if (!fig) g.fillText(pp.comb, px(pp.cx) - 6, py(pp.cy) - 6);
       { const ax = M.L / 2 + pp.rx, ay = M.W / 2 + pp.ry, cx0 = M.L / 2, cy0 = M.W / 2, nf = v => String(Math.round(Math.abs(v) * 10) / 10), DC = '#c00000';     // 하중 중심점 + 복공판 중앙에서의 x, y 치수선
         const seg = (x1, y1, x2, y2, lw, dash) => { g.strokeStyle = DC; g.lineWidth = lw; g.setLineDash(dash || []); g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke(); g.setLineDash([]); };
         const arr = (x, y, ux, uy) => { g.fillStyle = DC; g.beginPath(); g.moveTo(x, y); g.lineTo(x - ux * 7 + uy * 2.6, y - uy * 7 - ux * 2.6); g.lineTo(x - ux * 7 - uy * 2.6, y - uy * 7 + ux * 2.6); g.closePath(); g.fill(); };
@@ -2853,8 +2976,11 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
         }
         g.textAlign = 'left';
         g.beginPath(); g.arc(px(ax), py(ay), 3.6, 0, Math.PI * 2); g.fillStyle = DC; g.fill(); g.strokeStyle = '#fff'; g.lineWidth = 1.2; g.stroke(); g.font = '11px ' + CF; } });
+    if (fig && opt.loads) {      // 하중 케이스 번호 (같은 위치에 겹치면 묶어서 표시 : 1, 2, 3)
+      const grp = {}; M.patches.forEach((pp, i) => { const k = Math.round(px(pp.cx) / 6) + '_' + Math.round(py(pp.cy) / 6); (grp[k] = grp[k] || { x: px(pp.cx), y: py(pp.cy), n: [] }).n.push(i + 1); });
+      g.font = 'bold 14px ' + CF; g.textAlign = 'center'; g.lineJoin = 'round'; Object.keys(grp).forEach(k => { const o = grp[k], t = o.n.join(', '); g.lineWidth = 4; g.strokeStyle = 'rgba(255,255,255,.95)'; g.strokeText(t, o.x, o.y - 8); g.fillStyle = '#111'; g.fillText(t, o.x, o.y - 8); }); g.textAlign = 'left'; }
     // 상단 치수선 : 받침판 끝 ~ 복공판 중앙 요소 분할수 (좌측 = 입력칸(화면) / 계산서에서는 숫자 표기, 우측 = 대칭 표기)
-    { const xM = M.L / 2, yD = ui ? 24 : 44, segs = M.nSeg || [];
+    { const xM = M.L / 2, yD = ui ? 24 : 44, segs = fig ? [] : (M.nSeg || []);
       const ln = (x1, y1, x2, y2, col, lw) => { g.strokeStyle = col; g.lineWidth = lw || 1; g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke(); };
       const DIMC = '#46556e', tk = x => ln(x - 3.5, yD + 3.5, x + 3.5, yD - 3.5, DIMC, 1.2);
       const dim = (xa, xb2, txtMid) => {
@@ -2882,7 +3008,7 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
     return c;
   }
 
-  const api = { buildReport, toHTML, toDocx, REPORT_CSS, drawSection, drawSupport, drawModelSection, drawModelPlan, drawModel3D, zip, crc32 };
+  const api = { buildReport, toHTML, toDocx, REPORT_CSS, drawSection, drawSupport, drawModelSection, drawModelPlan, drawModelFigure, drawLoadCases, drawModel3D, zip, crc32 };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.Report = api;
 })(typeof window !== 'undefined' ? window : globalThis);
 
@@ -3531,7 +3657,7 @@ const OCRR = (function () {
   const renumberCases = inp => { try { const m = inp && inp.mct; if (!m || !m.cases) return inp;
       m.cases.forEach(c => { if (c.show === undefined) c.show = true; });
       if (!m.relPos) { const X0 = (inp.sec && inp.sec.L ? inp.sec.L : 199) * 5, Y0 = (inp.sec && inp.sec.B ? inp.sec.B : 99.4) * 5; m.cases.forEach(c => { c.cx = Math.round((c.cx - X0) * 100) / 100; c.cy = Math.round((c.cy - Y0) * 100) / 100; }); m.relPos = true; } } catch (e) { /* 무시 */ } return inp; };
-  const legacy = inp => { migrateCases(inp); renumberCases(inp); autoNameCases(inp); try { { const mt = inp && inp.mat; if (mt) { if (!mt.lfGrade) mt.lfGrade = mt.bhGrade; if (!mt.diaGrade || mt.diaGradeV !== 2) mt.diaGrade = 'SS275'; mt.diaGradeV = 2; } if (inp && inp.mct) { inp.mct.crane = true; inp.mct.groups = true; inp.mct.diaph = true; inp.mct.diaN = [2, 3, 5, 7].includes(+inp.mct.diaN) ? +inp.mct.diaN : 3; if (!Array.isArray(inp.mct.diaD)) inp.mct.diaD = []; if (!Array.isArray(inp.mct.nDivs)) inp.mct.nDivs = inp.mct.nMid > 0 ? [Math.round(inp.mct.nMid)] : []; } } const r3 = inp && inp.res3d; if (r3 && Array.isArray(r3.combos)) { const mp = id => /^C[1-4]$/.test(String(id)) ? 'ENV' + String(id).slice(1) : id; r3.combos.forEach(c => { c.id = mp(c.id); if (c.mctName) c.mctName = mp(c.mctName); }); if (r3.data) { const nd = {}; Object.keys(r3.data).forEach(k => { nd[mp(k)] = r3.data[k]; }); r3.data = nd; } } const w = inp && inp.loads && inp.loads.work; if (w) w.use = false;   // 크레인 작업하중(엑셀 1.2) 항목은 삭제됨
+  const legacy = inp => { migrateCases(inp); renumberCases(inp); autoNameCases(inp); try { { const mt = inp && inp.mat; if (mt) { if (!mt.lfGrade) mt.lfGrade = mt.bhGrade; if (!mt.diaGrade || mt.diaGradeV !== 2) mt.diaGrade = 'SS275'; mt.diaGradeV = 2; } if (inp && inp.mct) { inp.mct.crane = true; inp.mct.groups = true; { const og = { 'u-db11': 1, 'u-db21': 2, 'u-tc11': 3, 'u-cr11': 3 }, rs = Array.isArray(inp.mct.lcb) ? inp.mct.lcb.filter(r => og[r.src]) : []; if (rs.length && rs.every(r => r.gu === undefined || r.gu === og[r.src])) rs.forEach(r => { delete r.gu; }); }   /* 예전 기본 ENV 묶음(1·2·3·3)이 저장돼 있으면 새 기본(DB-24 = ENV1, 크레인류 = ENV2)으로 */ inp.mct.diaph = true; inp.mct.diaN = [2, 3, 5, 7].includes(+inp.mct.diaN) ? +inp.mct.diaN : 3; if (!Array.isArray(inp.mct.diaD)) inp.mct.diaD = []; if (!Array.isArray(inp.mct.nDivs)) inp.mct.nDivs = inp.mct.nMid > 0 ? [Math.round(inp.mct.nMid)] : []; } } const r3 = inp && inp.res3d; if (r3 && Array.isArray(r3.combos)) { const mp = id => /^C[1-4]$/.test(String(id)) ? 'ENV' + String(id).slice(1) : id; r3.combos.forEach(c => { c.id = mp(c.id); if (c.mctName) c.mctName = mp(c.mctName); }); if (r3.data) { const nd = {}; Object.keys(r3.data).forEach(k => { nd[mp(k)] = r3.data[k]; }); r3.data = nd; } } const w = inp && inp.loads && inp.loads.work; if (w) w.use = false;   // 크레인 작업하중(엑셀 1.2) 항목은 삭제됨
        if (w && w.use === undefined && w.incl2D !== undefined) w.use = !!w.incl2D; const ps = inp && inp.loads && [inp.loads.psm].concat(inp.loads.psmX || []);   // 추가하중 : 등분포 q(kN/m) → 하중 크기 P(kN) = q × 재하길이
        if (ps) ps.forEach(it => { if (it && it.q2D !== undefined) { if (it.type !== '집중하중') { const pa = it.pa !== undefined ? it.pa : 0.72; it.P2D = Math.round(it.q2D * pa * 1e6) / 1e6; } delete it.q2D; } });
        const c = inp && inp.loads && inp.loads.crawler; if (c && c.area !== undefined && c.a === undefined) { c.b = 0.6; c.a = c.area / 0.6; } } catch (e) { /* 무시 */ } return inp; };
@@ -3708,7 +3834,7 @@ const OCRR = (function () {
   /* =====================  탭 1 : 설계조건  ===================== */
   function buildCond() {
     const root = h('div', { class: 'tabpane', id: 'pane-cond' });
-    root.appendChild(card('계산서 표지 입력', '계산서 표지에 들어가는 항목입니다.', grid(txt('meta.title', '표지 제목'), txt('meta.sub', '부제'), txt('meta.project', '프로젝트', { ph: 'OO 도로건설공사', tone: true }), txt('meta.date', '일자', { tone: true }), txt('meta.org', '건설회사', { ph: 'OO건설', tone: true }), txt('meta.author', '작성기관', { ph: '더브릿지', tone: true }))));
+    root.appendChild(card('계산서 표지 입력', '계산서 표지에 들어가는 항목입니다.', grid(txt('meta.title', '표지 제목'), txt('meta.sub', '부제'), txt('meta.project', '프로젝트', { ph: 'OO 도로건설공사', tone: true }), txt('meta.date', '일자', { tone: true }), txt('meta.org', '건설회사', { ph: 'OO건설', tone: true }), txt('meta.author', '작성기관', { ph: '(주)OOOO', tone: true }))));
     const secCanvas = h('canvas', { id: 'secCanvas', width: 2000, height: 1700, class: 'secimg' });
     root.appendChild(card('단면 제원 (전체폭 기준)', '',
       grid(num('sec.B', '복공판 폭 B', { unit: 'cm', structural: true }), num('sec.L', '복공판 길이(경간) L', { unit: 'cm', structural: true }), num('sec.td', '무늬강판 두께 td', { unit: 'cm', structural: true }),
@@ -4025,10 +4151,10 @@ const OCRR = (function () {
   }
   // MCT 형식(MIDAS Civil 버전) 선택 : 8.7.0 은 THICKNESS 8필드·SELFWEIGHT 한 줄 등 필드 구성이 다르므로 Import 하는 버전에 맞춰 선택
   function verSel() {
-    const s = h('select', { 'data-path': 'mct.ver', title: '8.7.0 : THICKNESS 8필드, SELFWEIGHT 한 줄, 하중조합 8필드, GROUP은 ELEMENT 뒤(PLANE_TYPE 포함) · 9.5.5 : 기존 형식' }, [h('option', { value: 'old', text: 'MIDAS Civil 8.7.0' }), h('option', { value: 'new', text: 'MIDAS Civil 9.5.5' })]);
+    const s = h('select', { 'data-path': 'mct.ver', style: 'font-weight:700;width:auto;min-width:170px', title: '8.7.0 : THICKNESS 8필드, SELFWEIGHT 한 줄, 하중조합 8필드, GROUP은 ELEMENT 뒤(PLANE_TYPE 포함) · 9.5.5 : 기존 형식' }, [h('option', { value: 'old', text: 'MIDAS Civil 8.7.0' }), h('option', { value: 'new', text: 'MIDAS Civil 9.5.5' })]);
     s.value = getp(S.inp, 'mct.ver') === 'new' ? 'new' : 'old';
     s.addEventListener('change', () => { setp(S.inp, 'mct.ver', s.value); changed(true); });
-    return h('label', { class: 'fld' }, h('span', { class: 'lb', text: 'MIDAS Civil 버전 (MCT 형식)' }), h('span', { class: 'iw' }, s));
+    return s;
   }
   function buildMct() {
     const root = h('div', { class: 'tabpane', id: 'pane-mct' });
@@ -4052,10 +4178,9 @@ const OCRR = (function () {
       h('div', { id: 'caseWarn' })));
     root.appendChild(card('하중 조합', '재하 위치마다 LCB(자중 + 해당 활하중)가 자동 생성되고, 구성·계수는 표에서 수정할 수 있습니다. LCB는 하중 종류별 ENV1~ENV5로 묶이고, 모두 최종 ENV로 Envelope 됩니다.', h('div', { id: 'comboInfo' })));
     root.appendChild(card('MCT 파일', 'MIDAS Civil > File > Import > MIDAS Civil MCT file로 불러오세요.',
-      h('div', { class: 'grid', style: 'grid-template-columns:repeat(3,minmax(0,1fr))' }, verSel()),
-      h('div', { class: 'row' }, h('button', { class: 'btn primary', onclick: downloadMct, text: 'MCT 파일 생성 · 다운로드' }), h('button', { class: 'btn', onclick: toggleMctPreview, text: 'MCT 미리보기' })),
+      h('div', { class: 'row' }, verSel(), h('button', { class: 'btn primary', onclick: downloadMct, text: 'MCT 파일 생성 · 다운로드' }), h('button', { class: 'btn', onclick: toggleMctPreview, text: 'MCT 미리보기' })),
       h('pre', { id: 'mctPreview', class: 'pre hide' }),
-      h('div', { class: 'info', html: '<b>해석 후 결과 반영 순서</b><br>① MCT Import → 해석 실행 (하중 조합 <code>LCB1~</code>은 General, <code>ENV1~ENV4</code>와 <code>ENV</code>는 Envelope로 정의됨)<br>② 판요소 응력표 : Results &gt; Result Tables &gt; Plate &gt; Stress (Von-Mises 포함)를 하중 조합 ENV1~ENV4 별로 복사 또는 텍스트 저장<br>③ 변위표 : Result Tables &gt; Displacement (DZ)<br>④ [4. 3D 결과] 탭에 붙여넣기 → 부재별 최대 Von-Mises 자동 추출, Contour 자동 생성<br>⑤ MIDAS 화면 캡처(응력 Contour)가 있으면 같은 탭에서 이미지를 붙여넣어 계산서에 그대로 사용' })));
+      h('div', { class: 'info', html: '<b>해석 후 결과 반영 순서</b><br>① MCT Import → 해석 실행 (하중 조합 <code>LCB1~</code>은 General, <code>ENV1~ENV4</code>와 <code>ENV</code>는 Envelope로 정의됨)<br>② 판요소 응력표 : Results &gt; Result Tables &gt; Plate &gt; Stress (Global)를 하중 조합 ENV1~ENV4 별로 복사 또는 텍스트 저장<br>③ 변위표 : Result Tables &gt; Displacement<br>④ [4. 3D 결과] 탭에 붙여넣기 → 부재별 최대 Von-Mises 자동 추출, Contour 자동 생성<br>⑤ MIDAS 화면 캡처(응력 Contour)가 있으면 같은 탭에서 이미지를 붙여넣어 계산서에 그대로 사용' })));
     return decorate(root, '3', '3D 모델 · MCT');
   }
   // 지점 위치·받침판 반폭·받침판 두께 입력란에 커서가 있는 동안 그림의 해당 치수를 빨강으로 표시
@@ -4549,7 +4674,8 @@ const OCRR = (function () {
   function collectImages() {
     const imgs = { sec: null, model: null }, M = C.model;
     const sc = RP.drawSection(document, S.inp); imgs.sec = { url: sc.toDataURL('image/png'), w: sc.width, h: sc.height };
-    const mp = RP.drawModelPlan(document, M, S.inp); imgs.model = { url: mp.toDataURL('image/png'), w: mp.width, h: mp.height };
+    const mp = RP.drawModelFigure(document, M, S.inp); imgs.model = { url: mp.toDataURL('image/png'), w: mp.width, h: mp.height };
+    RP.drawLoadCases(document, M, S.inp).forEach((o, i) => { imgs['load_' + i] = { url: o.canvas.toDataURL('image/png'), w: o.canvas.width, h: o.canvas.height, cap: o.cap }; });
     S.inp.res3d.combos.forEach(c => {
       const user = (S.user.imgs || {})[c.id] || {}, auto = autoImages(c);
       SLOTS.forEach(([k]) => { const v = c.autoImg && c.autoImg[k] === false ? user[k] : (auto[k] || user[k]); if (v) imgs[k + '_' + c.id] = v; });
@@ -4591,7 +4717,7 @@ const OCRR = (function () {
   }
   function exportHtml() {
     const B = RP.buildReport(reportState());
-    download('복공판_구조계산서_' + stamp() + '.html', '<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>' + S.inp.meta.title + '</title><style>body{margin:24px auto;max-width:860px}' + RP.REPORT_CSS + '</style></head><body><div class="rpt">' + RP.toHTML(B) + '</div></body></html>', 'text/html');
+    download('복공판_구조계산서_' + stamp() + '.html', '<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow"><title>' + S.inp.meta.title + '</title><style>body{margin:24px auto;max-width:860px}' + RP.REPORT_CSS + '</style></head><body><div class="rpt">' + RP.toHTML(B) + '</div></body></html>', 'text/html');
   }
 
   /* =====================  공통 : 탭/상단바/토스트  ===================== */
@@ -4645,6 +4771,7 @@ const OCRR = (function () {
         ? h('button', { class: 'btn primary', text: '저장 파일 지정', title: '프로젝트 파일(.json)의 이름·위치를 지정합니다. 이후 모든 입력이 그 파일에 자동 저장되며, 새 이름을 주면 원본은 그대로 남습니다', onclick: connectFile })
         : h('button', { class: 'btn primary', text: '저장', title: '현재 입력 전체를 프로젝트 파일(.json)로 내려받습니다 (이 환경에서는 자동 파일저장을 쓸 수 없음)', onclick: saveProject }),
       h('button', { class: 'btn', text: '3D 결과 초기화', onclick: resetResults }),
+      h('span', { id: 'helpChip', class: 'savestate helpchip', text: 'Help', title: '준비중' }),
       h('span', { id: 'saveState', class: 'savestate' })));
     rebuildAll(); renderSaveState(); initFileLink();
   }
