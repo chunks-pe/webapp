@@ -4687,7 +4687,7 @@ const OCRR = (function () {
     const same = cvState.key === key && cvState.refs && cvState.refs[0] === M && cvState.refs[1] === d.elem && cvState.refs[2] === d.node && cvState.refs[3] === d.disp && box.firstChild && cvState.box === box;
     if (same) return;
     const sp = contourSpec(c, kind, userMax); box.innerHTML = ''; cvState.key = null; cvState.v = null;
-    if (!sp) { box.appendChild(h('p', { class: 'sub', text: '가져온 결과표가 없습니다. 위에서 ' + (kind === 'defl' ? '변위표' : '응력표') + '를 먼저 분석하세요.' })); return; }
+    if (!sp) { box.appendChild(h('p', { class: 'sub', text: 'MIDAS 결과표에서 응력표와 변위표를 입력하면 자동으로 Contour를 생성합니다. 현재 가져온 결과표가 없습니다. 위에서 결과표를 입력하세요.' })); return; }
     const host = h('div', { class: 'cvhost' }); let v = null;
     const vb = (t, name) => h('button', { class: 'btn sm', text: t, onclick: () => v && v.setView(name) });
     box.appendChild(h('div', { class: 'cvframe' }, host,
