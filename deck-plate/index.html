@@ -565,31 +565,31 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
 
   /* ---------- KDS 24 14 30 표 4.2-1 기본허용응력 (인장·휨 / 전단) ---------- */
   // 판두께 구분: 0:t≤16, 1:16<t≤40, 2:40<t≤75, 3:75<t≤100, 4:t>100  (null = 해당 없음)
-  const GRADES = ['SS235', 'SS275', 'SS275W', 'SM275A', 'SS315', 'SM355A', 'SS410', 'SM420', 'SS450', 'SM460A', 'SS550'];
+  const GRADES = ['SS235', 'SS275', 'SS275W', 'SM275/SM275A', 'SS315', 'SM355/SM355A', 'SS410', 'SM420', 'SS450', 'SM460/SM460A', 'SS550'];
   const FA_TABLE = {
     'SS235':         [140, 135, 125, 125, 115],
     'SS275':         [165, 160, 145, 145, 140],
     'SS275W':        [165, 160, 145, 145, 140],   // SS275 와 동일 값 적용 (항복강도 275 MPa 급)
-    'SM275A':  [165, 160, 155, 145, 140],
+    'SM275/SM275A':  [165, 160, 155, 145, 140],
     'SS315':         [190, 185, 175, 175, 165],
-    'SM355A':  [215, 210, 200, 195, 185],
+    'SM355/SM355A':  [215, 210, 200, 195, 185],
     'SS410':         [245, 240, null, null, null],
     'SM420':         [250, 245, 240, 235, 230],
     'SS450':         [270, 265, null, null, null],
-    'SM460A':  [275, 270, 260, 250, null],
+    'SM460/SM460A':  [275, 270, 260, 250, null],
     'SS550':         [330, 325, null, null, null]
   };
   const SA_TABLE = {
     'SS235':         [80, 80, 70, 70, 70],
     'SS275':         [95, 90, 85, 85, 80],
     'SS275W':        [95, 90, 85, 85, 80],
-    'SM275A':  [95, 90, 90, 85, 80],
+    'SM275/SM275A':  [95, 90, 90, 85, 80],
     'SS315':         [110, 105, 100, 100, 95],
-    'SM355A':  [125, 120, 115, 115, 105],
+    'SM355/SM355A':  [125, 120, 115, 115, 105],
     'SS410':         [140, 140, null, null, null],
     'SM420':         [145, 140, 140, 135, null],
     'SS450':         [155, 150, null, null, null],
-    'SM460A':  [160, 155, 150, 145, null],
+    'SM460/SM460A':  [160, 155, 150, 145, null],
     'SS550':         [190, 185, null, null, null]
   };
   const THK_CLASS = ['t ≤ 16', '16 < t ≤ 40', '40 < t ≤ 75', '75 < t ≤ 100', 't > 100'];
@@ -618,7 +618,7 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
         L: 199          // 복공판 길이(경간) (cm)
       },
       mat: {
-        deckGrade: 'SS275W', bhGrade: 'SM355A', lfGrade: 'SM355A', diaGrade: 'SS275W', diaGradeV: 2,      // 무늬강판 / BH-형강(Web·중간플랜지·받침판) / 하부플랜지 / 격벽
+        deckGrade: 'SS275W', bhGrade: 'SM355/SM355A', lfGrade: 'SM355/SM355A', diaGrade: 'SS275W', diaGradeV: 2,      // 무늬강판 / BH-형강(Web·중간플랜지·받침판) / 하부플랜지 / 격벽
         surCase: 'DLI',      // 허용응력 할증계수 하중 조합 : 'DLI' = D+L+I (충격 고려, 할증 1.25) / 'DL' = D+L (충격 미적용, 할증 1.00)
         reuse: false,        // 재사용 강재
         reuseFactor: 0.9,    // 재사용 감소계수
@@ -3038,7 +3038,7 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
   const esc = s => String(s).replace(/[^\x20-\x7e]/g, ch => '\\U+' + ch.charCodeAt(0).toString(16).toUpperCase().padStart(4, '0'));
   const fmtV = v => { const r = Math.round(v * 100) / 100; return Number.isInteger(r) ? String(r) : (Math.round(r * 10) / 10 === r ? r.toFixed(1) : r.toFixed(2)); };
   const fm = v => { let t = (Math.round(v * 1000) / 1000).toFixed(3); while (t.length > 1 && t.endsWith('0') && /\.\d\d\d$/.test(t) && t.split('.')[1].length > 2) t = t.slice(0, -1); return t; };
-  const grd = g => ({ 'SM355/SMA355': 'SM355A', 'SM275/SMA275': 'SM275A', 'SM460/SMA460': 'SM460A' }[g] || g || '');
+  const grd = g => ({ 'SM355/SM355A': 'SM355A', 'SM275/SM275A': 'SM275A', 'SM460/SM460A': 'SM460A', 'SM355/SMA355': 'SM355A', 'SM275/SMA275': 'SM275A', 'SM460/SMA460': 'SM460A' }[g] || g || '');
 
   /* ---------- 해치 패턴 정의 (ezdxf 패턴 라이브러리 값) ---------- */
   const PAT = {
@@ -4201,7 +4201,7 @@ const OCRR = (function () {
        if (ps) ps.forEach(it => { if (it && it.q2D !== undefined) { if (it.type !== '집중하중') { const pa = it.pa !== undefined ? it.pa : 0.72; it.P2D = Math.round(it.q2D * pa * 1e6) / 1e6; } delete it.q2D; } });
        const c = inp && inp.loads && inp.loads.crawler; if (c && c.area !== undefined && c.a === undefined) { c.b = 0.6; c.a = c.area / 0.6; } } catch (e) { /* 무시 */ } return inp; };
   const renameStr = (o, d) => { if (!o || typeof o !== 'object' || d > 6) return; Object.keys(o).forEach(k => { const v = o[k]; if (typeof v === 'string') { if (v.length < 300 && v.indexOf('DB-24') >= 0) o[k] = v.split('DB-24').join('KL-510'); } else if (v && typeof v === 'object' && !(v.length > 200)) renameStr(v, d + 1); }); };
-  const GRD_OLD = { 'SM275/SMA275': 'SM275A', 'SM355/SMA355': 'SM355A', 'SM460/SMA460': 'SM460A' };   // 예전 강종 표기 → SM숫자A
+  const GRD_OLD = { 'SM275/SMA275': 'SM275/SM275A', 'SM355/SMA355': 'SM355/SM355A', 'SM460/SMA460': 'SM460/SM460A', 'SM275A': 'SM275/SM275A', 'SM355A': 'SM355/SM355A', 'SM460A': 'SM460/SM460A' };   // 예전 강종 표기 → SM숫자/SM숫자A
   const migrate = inp => { if (inp && inp.mat) ['deckGrade', 'bhGrade', 'lfGrade', 'diaGrade'].forEach(k => { if (GRD_OLD[inp.mat[k]]) inp.mat[k] = GRD_OLD[inp.mat[k]]; }); if (inp && inp.meta && inp.meta.project === 'TB-복공판 구조계산서') inp.meta.project = 'OO 도로건설공사'; if (inp) { renameStr(inp.loads, 0); renameStr(inp.mct, 0); } return inp; };   // 표준트럭 명칭 DB-24 → KL-510 (예전 저장값 포함)   // 예전 기본 프로젝트명 → 새 기본값
   function restore() {
     try {
