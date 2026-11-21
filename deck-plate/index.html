@@ -636,7 +636,7 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
         mix:     { use: true, name: '레미콘',          W: 300, f2: 0.25 },
         db24:    { use: true, name: 'KL-510',           W: 240, f: 0.40, ca: 0.2309, cb: 0.5773 },
         work:    { use: false, name: '작업하중(크롤러 크레인 152.6ton)', P: 1526, f2D: 0.85, f1: 0.75, area1: 8.155, area2: 1.2 },
-        psm:     { use: false, name: 'PSM 거더 캐리어', type: '등분포하중', P2D: 360, k2D: 1.1, pa: 0.72, pb: 1.1 },
+        psm:     { use: false, name: 'PSM 거더 캐리어', type: '등분포하중', P2D: 360, k2D: 1.1, pa: 0.72, pb: 1.1, ta: 0.2, tb: 0.2 },
         psmX:    []        // 추가하중 세트(+ 버튼) : psm과 같은 항목 { name, type, P2D, k2D, pa, pb }
       },
       limitDefl: 400,   // L / 400
@@ -870,9 +870,9 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
   }
 
   /* 추가하중 세트 목록 : 첫 세트(psm) + [+]로 추가한 세트(psmX). 머리글 체크(psm.use)가 전체 적용 여부 */
-  const POINT_PATCH = 0.2;                                         // 집중하중의 3D 재하 정사각형 한 변 (m)
+  const POINT_PATCH = 0.2;                                         // 집중하중의 3D 재하 면 기본값 (m) — 입력(ta × tb)이 없을 때만 사용 (2D 는 점하중)
   function psmItems(l) { return l.psm && l.psm.use ? [l.psm].concat(l.psmX || []) : []; }
-  function newPsmItem() { return { name: '추가하중', type: '등분포하중', P2D: 360, k2D: 1.0, pa: 0.72, pb: 1.1 }; }
+  function newPsmItem() { return { name: '추가하중', type: '등분포하중', P2D: 360, k2D: 1.0, pa: 0.72, pb: 1.1, ta: POINT_PATCH, tb: POINT_PATCH }; }
 
   /* 체크박스(use)로 선택한 하중만 구조계산에 적용 (저장값에 use가 없으면 적용으로 간주) */
   function useFlags(inp) {
@@ -896,9 +896,9 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
     const Wmax = wc.length ? Math.max.apply(null, wc) : 0, craneP = Wmax * i1, tcPt = tcWm2 * i1;                // kN/m²  (craneP = 크롤러 전면 / tcPt = 트럭 크레인 지지패널 압력)
     const asph = inp.add.asphT / 100 * inp.mat.gammaAsph;
     // 추가하중 3D : 하중 총량 Pf = (등분포) q × 재하길이 × 재하계수 / (집중) P × 재하계수 → 충격 포함 후 재하면적에 등분포
-    //   집중하중은 재하 길이·폭을 쓰지 않고 POINT_PATCH 정사각형(0.2 m)에 재하
+    //   집중하중은 2D 에서는 점하중이고, 3D 해석에만 입력한 재하 길이 × 폭(ta × tb, 기본 0.2 × 0.2 m)에 재하
     const psms = psmItems(l).map(it => {
-      const pt = it.type === '집중하중', pa = pt ? POINT_PATCH : it.pa, pb = pt ? POINT_PATCH : it.pb;
+      const pt = it.type === '집중하중', pa = pt ? (+it.ta > 0 ? +it.ta : POINT_PATCH) : it.pa, pb = pt ? (+it.tb > 0 ? +it.tb : POINT_PATCH) : it.pb;
       const Pf = it.P2D * it.k2D;
       const Pt = Pf * i1, area = pa * pb;                         // 압력 p = Pt/(pa·pb)는 복공판 밖으로 나가는 부분을 재하하지 않으므로 그대로 사용 (하중총량 환산 없음)
       return { src: it, label: it.name, point: pt, pa, pb, Pf, Pt, area, p: Pt / area, pClip: Pt / area, clipped: pb > Bm || pa > Lm, clipB: pb > Bm, clipL: pa > Lm };
@@ -2096,7 +2096,7 @@ d=(g[h++]|g[h++]<<8|g[h++]<<16|g[h++]<<24)>>>0;(a.length&4294967295)!==d&&n(Erro
     if (lf.crawler) rows12.push([lo.crawler.name, f(lo.crawler.W, 0) + ' kN', f(lo.crawler.f, 2), f(lo.crawler.f * lo.crawler.W, 2) + '  (궤도면적 ' + fv(lo.crawler.a) + '×' + fv(lo.crawler.b) + ' = ' + f(lo.crawler.a * lo.crawler.b, 2) + ' m²)']);
     if (lf.truckCr) rows12.push([lo.truckCr.name, f(lo.truckCr.W, 0) + ' kN', f(lo.truckCr.f, 2), f(lo.truckCr.f * lo.truckCr.W, 1) + '  (지지패널 ' + fv(lo.truckCr.padB) + '×' + fv(lo.truckCr.padL) + ' m)']);
     if (lf.db24) rows12.push([lo.db24.name + ' (차량하중)', f(lo.db24.W, 0) + ' kN', f(lo.db24.f, 2), f(lo.db24.f * lo.db24.W, 1) + '  (접지 ' + f(lo.db24.ca, 4) + '×' + f(lo.db24.cb, 4) + ' m)']);
-    E.psmItems(lo).forEach(it => rows12.push([it.name + ' (추가하중)', f(it.P2D, 0) + ' kN', f(it.k2D, 2), f(it.P2D * it.k2D, 1) + (it.type === '집중하중' ? '  (집중하중, 3D 재하 ' + f(E.POINT_PATCH * 1000, 0) + '×' + f(E.POINT_PATCH * 1000, 0) + ' mm)' : '  (재하 ' + fv(it.pa) + '×' + fv(it.pb) + ' = ' + f(it.pa * it.pb, 2) + ' m² 등분포)')]));
+    E.psmItems(lo).forEach(it => rows12.push([it.name + ' (추가하중)', f(it.P2D, 0) + ' kN', f(it.k2D, 2), f(it.P2D * it.k2D, 1) + (it.type === '집중하중' ? '  (집중하중, 3D 재하 ' + f((+it.ta > 0 ? +it.ta : E.POINT_PATCH) * 1000, 0) + '×' + f((+it.tb > 0 ? +it.tb : E.POINT_PATCH) * 1000, 0) + ' mm)' : '  (재하 ' + fv(it.pa) + '×' + fv(it.pb) + ' = ' + f(it.pa * it.pb, 2) + ' m² 등분포)')]));
     if (rows12.length) h3('나. 작업하중');
     if (rows12.length) tbl(['구분', '총중량 W', '재하계수', '재하하중 P (kN)'], rows12, { widths: [24, 15, 12.6, 48.4], align: 'lccc' });
     B.push({ t: 'sp' });
@@ -4202,7 +4202,7 @@ const OCRR = (function () {
        const c = inp && inp.loads && inp.loads.crawler; if (c && c.area !== undefined && c.a === undefined) { c.b = 0.6; c.a = c.area / 0.6; } } catch (e) { /* 무시 */ } return inp; };
   const renameStr = (o, d) => { if (!o || typeof o !== 'object' || d > 6) return; Object.keys(o).forEach(k => { const v = o[k]; if (typeof v === 'string') { if (v.length < 300 && v.indexOf('DB-24') >= 0) o[k] = v.split('DB-24').join('KL-510'); } else if (v && typeof v === 'object' && !(v.length > 200)) renameStr(v, d + 1); }); };
   const GRD_OLD = { 'SM275/SMA275': 'SM275/SM275A', 'SM355/SMA355': 'SM355/SM355A', 'SM460/SMA460': 'SM460/SM460A', 'SM275A': 'SM275/SM275A', 'SM355A': 'SM355/SM355A', 'SM460A': 'SM460/SM460A' };   // 예전 강종 표기 → SM숫자/SM숫자A
-  const migrate = inp => { if (inp && inp.mat) ['deckGrade', 'bhGrade', 'lfGrade', 'diaGrade'].forEach(k => { if (GRD_OLD[inp.mat[k]]) inp.mat[k] = GRD_OLD[inp.mat[k]]; }); if (inp && inp.meta && inp.meta.project === 'TB-복공판 구조계산서') inp.meta.project = 'OO 도로건설공사'; if (inp) { renameStr(inp.loads, 0); renameStr(inp.mct, 0); } return inp; };   // 표준트럭 명칭 DB-24 → KL-510 (예전 저장값 포함)   // 예전 기본 프로젝트명 → 새 기본값
+  const migrate = inp => { if (inp && inp.loads) [inp.loads.psm].concat(inp.loads.psmX || []).forEach(it => { if (it && !(+it.ta > 0)) it.ta = E.POINT_PATCH; if (it && !(+it.tb > 0)) it.tb = E.POINT_PATCH; }); if (inp && inp.mat) ['deckGrade', 'bhGrade', 'lfGrade', 'diaGrade'].forEach(k => { if (GRD_OLD[inp.mat[k]]) inp.mat[k] = GRD_OLD[inp.mat[k]]; }); if (inp && inp.meta && inp.meta.project === 'TB-복공판 구조계산서') inp.meta.project = 'OO 도로건설공사'; if (inp) { renameStr(inp.loads, 0); renameStr(inp.mct, 0); } return inp; };   // 표준트럭 명칭 DB-24 → KL-510 (예전 저장값 포함)   // 예전 기본 프로젝트명 → 새 기본값
   function restore() {
     try {
       const raw = localStorage.getItem(LS_KEY); if (!raw) return false;
@@ -4425,15 +4425,16 @@ const OCRR = (function () {
         const setOf = (pre, k) => {
           const pt = [num(pre + '.P2D', '하중 크기 P', { unit: 'kN' })], udl = [];
           pt.forEach(e => { e.style.gridColumn = '1'; });
-          const pair = pairFld('하중 재하 길이 × 폭', pre + '.pa', pre + '.pb', 'm');
-          pair.title = '집중하중은 재하 길이·폭을 사용하지 않습니다 (3D 해석은 ' + (E.POINT_PATCH * 1000) + ' × ' + (E.POINT_PATCH * 1000) + ' mm 면에 재하)';
+          const pairU = pairFld('하중 재하 길이 × 폭', pre + '.pa', pre + '.pb', 'm');
+          const pairP = pairFld('하중 재하 길이 × 폭 (for 3D Analysis)', pre + '.ta', pre + '.tb', 'm');
+          pairP.title = '집중하중은 2D 구조계산에서 점하중(경간 중앙)으로 계산하고, 이 재하 길이 × 폭은 3D 해석(MIDAS 면압 재하)에만 적용합니다';
           const item = () => getp(S.inp, pre);
           const sync = () => {
             const isPt = item().type === '집중하중';
-            pair.classList.toggle('dis', isPt); pair.querySelectorAll('input').forEach(i => { i.disabled = isPt; });
+            pairU.style.display = isPt ? 'none' : ''; pairP.style.display = isPt ? '' : 'none';
           };
           const typeF = sel(pre + '.type', '하중 형태', ['등분포하중', '집중하중'], { after: sync }), kF = num(pre + '.k2D', '재하계수'); typeF.classList.add('pw');   // 하중 형태 폭 = 아래 하중 재하 길이 × 폭(2칸) 폭 / 재하계수는 작업하중·표준트럭하중과 같은 칸 폭
-          const kids = [txt(pre + '.name', '하중 이름'), typeF, ...udl, ...pt, kF, pair];
+          const kids = [txt(pre + '.name', '하중 이름'), typeF, ...udl, ...pt, kF, pairU, pairP];
           const fig = h('div', { class: 'psmfig' });
           const redraw = () => { fig.innerHTML = psmFig(item()); };
           kids.push(fig);
